@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<title>Mogul Runner</title>
+<title>MainTagRunner</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 :root{
@@ -364,7 +364,7 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
   <div class="splash-mogul">
     <svg viewBox="0 0 60 60" fill="none"><ellipse cx="30" cy="28" rx="8" ry="8" fill="#f0d0a8"/><rect x="22" y="35" width="16" height="14" rx="2" fill="#1a1a3a"/><rect x="28" y="32" width="4" height="6" fill="#e8e8f0"/><path d="M30 36l-2 4h4z" fill="#c41e3a"/><ellipse cx="30" cy="15" rx="10" ry="4" fill="#1a1a2e"/><rect x="23" y="4" width="14" height="12" rx="2" fill="#1a1a35"/><rect x="23" y="13" width="14" height="2.5" fill="#f0c040"/></svg>
   </div>
-  <h1>Mogul Runner</h1>
+  <h1>MainTagRunner</h1>
   <p>Build your empire, one tap at a time</p>
   <div class="splash-tap">Tap anywhere to start</div>
 </div>
@@ -4500,19 +4500,19 @@ function switchView(view){
 function exportSave(){
   saveGame();
   try{
-    const data=localStorage.getItem("mogul_runner_save");
+    const data=localStorage.getItem("maintagrunner_save");
     if(data){navigator.clipboard.writeText(data);notify("Save copied to clipboard!");}
   }catch(e){notify("Export failed");}
 }
 function importSave(){
   const raw=prompt("Paste save data:");
   if(!raw)return;
-  try{JSON.parse(raw);localStorage.setItem("mogul_runner_save",raw);location.reload();}
+  try{JSON.parse(raw);localStorage.setItem("maintagrunner_save",raw);location.reload();}
   catch(e){notify("Invalid save data");}
 }
 function resetSave(){
   if(!confirm("Delete ALL progress? This cannot be undone!"))return;
-  try{localStorage.removeItem("mogul_runner_save");}catch(e){}
+  try{localStorage.removeItem("maintagrunner_save");}catch(e){}
   location.reload();
 }
 
@@ -4874,11 +4874,11 @@ function saveGame(){
       version:14,
       savedAt:Date.now(),
     };
-    localStorage.setItem("mogul_runner_save",JSON.stringify(data));
+    localStorage.setItem("maintagrunner_save",JSON.stringify(data));
   }catch(e){}
 }
 function loadGame(){
-  const raw=localStorage.getItem("mogul_runner_save");
+  const raw=localStorage.getItem("maintagrunner_save");
   if(!raw)return false;
   try{
     const d=JSON.parse(raw);

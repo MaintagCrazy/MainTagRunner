@@ -1,7 +1,7 @@
 {
-  "name": "mogul-runner",
+  "name": "maintagrunner",
   "version": "14.0.0",
-  "description": "Mogul Runner - Idle Tycoon Game",
+  "description": "MainTagRunner - Idle Tycoon Game",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
