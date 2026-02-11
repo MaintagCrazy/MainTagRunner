@@ -1,0 +1,12 @@
+{
+  "name": "mogul-runner",
+  "version": "14.0.0",
+  "description": "Mogul Runner - Idle Tycoon Game",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
