@@ -357,6 +357,99 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
 /* Adjust nav position for XP bar */
 #nav{bottom:0}
 #xp-bar-wrap~#nav{bottom:18px}
+
+/* ─── v15: Gems display ─── */
+.hud-val.gems{color:#a78bfa}
+#gem-display{display:flex;align-items:center;gap:3px}
+.gem-icon{width:14px;height:14px;fill:#a78bfa;flex-shrink:0}
+
+/* ─── v15: Happiness meter ─── */
+#happiness-bar{position:fixed;top:calc(env(safe-area-inset-top,8px) + 48px);right:16px;z-index:19;display:flex;align-items:center;gap:4px;pointer-events:none;font-size:10px;font-weight:700}
+#happiness-icon{font-size:16px}
+#happiness-track{width:60px;height:4px;background:rgba(255,255,255,.08);border-radius:2px;overflow:hidden}
+#happiness-fill{height:100%;border-radius:2px;transition:width .3s,background .3s}
+#happiness-val{color:var(--text-muted);min-width:24px;text-align:right}
+
+/* ─── v15: Active powerup badges ─── */
+#active-powerups{position:fixed;top:calc(env(safe-area-inset-top,8px) + 42px);left:16px;z-index:19;display:flex;gap:4px;flex-wrap:wrap;max-width:200px;pointer-events:none}
+.pu-badge{display:flex;align-items:center;gap:3px;padding:2px 6px;border-radius:10px;font-size:9px;font-weight:700;color:#fff;backdrop-filter:blur(8px);background:rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.15)}
+.pu-badge-timer{opacity:.7;font-variant-numeric:tabular-nums}
+
+/* ─── v15: Population display ─── */
+#pop-display{font-size:10px;color:var(--text-muted);pointer-events:none}
+
+/* ─── v15: Subway lines on map ─── */
+.subway-line{pointer-events:none}
+
+/* ─── v15: Gem shop cards ─── */
+.gem-card{background:linear-gradient(135deg,rgba(30,20,60,.95),rgba(50,30,80,.9));border:1px solid rgba(167,139,250,.25);border-radius:var(--radius-sm);padding:14px;text-align:center;cursor:pointer;transition:.15s}
+.gem-card:active{transform:scale(.96)}
+.gem-card .gc-amount{font-size:22px;font-weight:900;color:var(--purple)}
+.gem-card .gc-price{font-size:12px;color:var(--text-muted);margin-top:2px}
+.gem-card .gc-bonus{font-size:10px;color:var(--green);margin-top:2px}
+.gem-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:8px 14px}
+.gem-convert{display:flex;gap:6px;padding:8px 14px;flex-wrap:wrap}
+.gem-convert-btn{padding:8px 14px;border:1px solid rgba(167,139,250,.3);background:rgba(167,139,250,.1);color:var(--purple);border-radius:8px;font-size:12px;font-weight:700;cursor:pointer}
+.gem-convert-btn:active{transform:scale(.96)}
+
+/* ─── v15: Subway build UI ─── */
+.subway-item{display:flex;align-items:center;gap:10px;padding:12px 14px;margin-bottom:6px;background:var(--card);border:1px solid rgba(96,165,250,.2);border-radius:var(--radius-sm)}
+.subway-progress{height:4px;background:rgba(255,255,255,.06);border-radius:2px;overflow:hidden;margin-top:6px}
+.subway-progress-fill{height:100%;background:linear-gradient(90deg,#3b82f6,#60a5fa);transition:width .5s}
+
+/* ─── v15: Decoration cards ─── */
+.deco-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;padding:8px 14px}
+.deco-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 6px;text-align:center;cursor:pointer;transition:.15s;font-size:11px}
+.deco-card:active{transform:scale(.96)}
+.deco-card.placed{border-color:var(--green);opacity:.65}
+.deco-card .dc-icon{font-size:20px;margin-bottom:4px}
+.deco-card .dc-name{font-weight:600;font-size:10px}
+.deco-card .dc-cost{color:var(--purple);font-size:10px;font-weight:700;margin-top:2px}
+.deco-card .dc-happy{color:var(--green);font-size:9px}
+
+/* ─── v15: Building addon slots ─── */
+.addon-slots{display:flex;gap:4px;margin-top:8px}
+.addon-slot{width:32px;height:32px;border-radius:8px;border:1px dashed rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:12px;color:var(--text-muted);background:rgba(255,255,255,.03)}
+.addon-slot.filled{border-style:solid;border-color:rgba(52,211,153,.3);background:rgba(52,211,153,.08);font-size:14px}
+.addon-picker{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:8px;max-height:200px;overflow-y:auto}
+.addon-pick-card{padding:8px;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:8px;cursor:pointer;font-size:10px}
+.addon-pick-card:active{transform:scale(.97)}
+
+/* ─── v15: Time-of-day overlay ─── */
+#tod-overlay{position:fixed;top:0;left:0;right:0;bottom:0;z-index:1;pointer-events:none;transition:background 2s}
+
+/* ─── v15: Confetti animation ─── */
+@keyframes confettiFall{0%{transform:translateY(-20px) rotate(0deg);opacity:1}100%{transform:translateY(100vh) rotate(720deg);opacity:0}}
+.confetti{position:fixed;width:8px;height:8px;z-index:200;pointer-events:none;animation:confettiFall 2s ease-in forwards}
+
+/* ─── v15: Desktop sidebar ─── */
+@media(min-width:1024px){
+  body.is-desktop #nav{display:none}
+  body.is-desktop #xp-bar-wrap{left:240px}
+  body.is-desktop #click-zone{left:240px}
+  body.is-desktop #hud{left:240px}
+  body.is-desktop #game-canvas{left:240px;width:calc(100% - 240px)}
+  body.is-desktop .panel{left:240px;right:auto;max-width:420px}
+  body.is-desktop .panel.open{transform:translate(0,0)}
+  #desktop-sidebar{display:none;position:fixed;top:0;left:0;bottom:0;width:240px;z-index:50;background:var(--surface-solid);border-right:1px solid var(--border);overflow-y:auto;padding:12px 0}
+  body.is-desktop #desktop-sidebar{display:flex;flex-direction:column}
+  .ds-logo{padding:16px;text-align:center;font-size:18px;font-weight:900;color:var(--gold)}
+  .ds-section{padding:4px 12px}
+  .ds-section-title{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text-muted);padding:8px 0 4px}
+  .ds-btn{display:flex;align-items:center;gap:8px;padding:8px 12px;margin-bottom:2px;border-radius:8px;cursor:pointer;font-size:12px;font-weight:600;color:var(--text-secondary);border:none;background:none;width:100%;text-align:left;transition:.15s}
+  .ds-btn:hover{background:rgba(255,255,255,.06);color:var(--text)}
+  .ds-btn.active{background:var(--gold-soft);color:var(--gold)}
+  .ds-stat{display:flex;justify-content:space-between;padding:4px 12px;font-size:11px}
+  .ds-stat-label{color:var(--text-muted)}
+  .ds-stat-val{font-weight:700}
+}
+
+/* ─── v15: Powerup sub-tabs ─── */
+.pu-subtab-bar{display:flex;gap:4px;padding:4px 14px;flex-shrink:0}
+.pu-subtab{flex:1;padding:6px;text-align:center;font-size:11px;font-weight:700;border:none;border-radius:8px;cursor:pointer;transition:.15s}
+.pu-subtab.active-cash{background:var(--gold-soft);color:var(--gold)}
+.pu-subtab.active-gem{background:var(--purple-soft);color:var(--purple)}
+.pu-subtab:not(.active-cash):not(.active-gem){background:rgba(255,255,255,.04);color:var(--text-muted)}
 </style>
 </head>
 <body>
@@ -388,6 +481,10 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
       <span class="hud-label">Income</span>
       <span class="hud-val income" id="s-income">$0/s</span>
     </div>
+    <div class="hud-stat">
+      <span class="hud-label">Gems</span>
+      <span class="hud-val gems" id="s-gems">0</span>
+    </div>
     <span id="hud-mult">1.0x</span>
     <button id="prestige-chip" onclick="showPrestigeModal()"></button>
   </div>
@@ -395,6 +492,48 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
 
 <!-- Click Stamina Bar -->
 <div id="stamina-bar"><div id="stamina-fill" style="width:100%;background:linear-gradient(90deg,#22c55e,#22c55e)"></div></div>
+
+<!-- v15: Happiness Bar -->
+<div id="happiness-bar">
+  <span id="happiness-icon">😊</span>
+  <div id="happiness-track"><div id="happiness-fill" style="width:50%;background:#22c55e"></div></div>
+  <span id="happiness-val">50</span>
+</div>
+
+<!-- v15: Active Power-up Badges -->
+<div id="active-powerups"></div>
+
+<!-- v15: Time-of-day overlay -->
+<div id="tod-overlay"></div>
+
+<!-- v15: Desktop Sidebar -->
+<div id="desktop-sidebar">
+  <div class="ds-logo">MainTagRunner</div>
+  <div class="ds-section">
+    <div class="ds-section-title">Navigation</div>
+    <button class="ds-btn active" onclick="dsSwitchView('game')">🏙 City</button>
+    <button class="ds-btn" onclick="dsSwitchView('shop')">🛒 Shop</button>
+    <button class="ds-btn" onclick="dsSwitchView('boosts')">⚡ Power-ups</button>
+    <button class="ds-btn" onclick="dsSwitchView('stats')">⭐ Stats</button>
+    <button class="ds-btn" onclick="dsSwitchView('settings')">⚙ Settings</button>
+  </div>
+  <div class="ds-section">
+    <div class="ds-section-title">Quick Stats</div>
+    <div class="ds-stat"><span class="ds-stat-label">Cash</span><span class="ds-stat-val" id="ds-cash">$0</span></div>
+    <div class="ds-stat"><span class="ds-stat-label">Income</span><span class="ds-stat-val" id="ds-income">$0/s</span></div>
+    <div class="ds-stat"><span class="ds-stat-label">Gems</span><span class="ds-stat-val" id="ds-gems">0</span></div>
+    <div class="ds-stat"><span class="ds-stat-label">Happiness</span><span class="ds-stat-val" id="ds-happy">50</span></div>
+    <div class="ds-stat"><span class="ds-stat-label">Population</span><span class="ds-stat-val" id="ds-pop">0</span></div>
+    <div class="ds-stat"><span class="ds-stat-label">Level</span><span class="ds-stat-val" id="ds-level">1</span></div>
+  </div>
+  <div class="ds-section" style="margin-top:auto;padding-bottom:16px">
+    <div class="ds-section-title">Shortcuts</div>
+    <div style="font-size:9px;color:var(--text-muted);padding:0 12px;line-height:1.6">
+      Space = Click &nbsp; 1-9 = Shop tabs<br>
+      P = Perks &nbsp; S = Stats &nbsp; Esc = Close
+    </div>
+  </div>
+</div>
 
 <!-- Mogul Rank -->
 <div id="mogul-rank"></div>
@@ -468,11 +607,13 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
   <div class="panel-header">
     <div class="panel-title">Shop</div>
     <div class="tab-bar" id="shop-tabs">
-      <button class="tab-btn active" data-tab="vehicles">Vehicles</button>
-      <button class="tab-btn" data-tab="properties">Properties</button>
+      <button class="tab-btn active" data-tab="properties">Properties</button>
       <button class="tab-btn" data-tab="land">Land</button>
-      <button class="tab-btn" data-tab="licenses">Licenses</button>
+      <button class="tab-btn" data-tab="vehicles">Vehicles</button>
       <button class="tab-btn" data-tab="managers">Managers</button>
+      <button class="tab-btn" data-tab="licenses">Licenses</button>
+      <button class="tab-btn" data-tab="gems">Gems</button>
+      <button class="tab-btn" data-tab="subway">Subway</button>
       <button class="tab-btn" data-tab="cosmetics">Cosmetics</button>
       <button class="tab-btn" data-tab="avatar">Avatar</button>
     </div>
@@ -492,6 +633,10 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
   <div class="panel-header">
     <div class="panel-title">Power-Ups</div>
     <div class="panel-subtitle">Temporary boosts to accelerate your empire</div>
+    <div class="pu-subtab-bar" id="pu-subtabs">
+      <button class="pu-subtab active-cash" data-putype="cash" onclick="boostSubTab='cash';renderBoosts()">Cash</button>
+      <button class="pu-subtab" data-putype="gem" onclick="boostSubTab='gem';renderBoosts()">Gem</button>
+    </div>
   </div>
   <div class="boost-grid" id="boost-items"></div>
 </div>
@@ -655,6 +800,13 @@ const ICONS = {
   check: '<svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
   star: '<svg viewBox="0 0 24 24" fill="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>',
 };
+
+// ═══════════════════════════════════════════════════════════════
+// v15: PLATFORM DETECTION
+// ═══════════════════════════════════════════════════════════════
+const IS_MOBILE = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent) || ('ontouchstart' in window);
+const IS_DESKTOP = !IS_MOBILE;
+if(IS_DESKTOP) document.body.classList.add('is-desktop');
 
 const VEHICLE_ICONS = ['skateboard','bicycle','scooter','car','sportsCar','luxury','limo','helicopter','yacht','privateJet'];
 const PROPERTY_ICONS = ['parking','foodcart','garage','apartment','restaurant','laundromat','office','casino','mall','hotel','stadium','skyscraper','cityBlock','airport','resort','spacePort','orbitalhotel','floatingCity','moonBase','marscolony'];
@@ -930,6 +1082,93 @@ const RANDOM_EVENTS = [
   {name:"Golden Hour",desc:"3x briefcase spawns for 60s",duration:60,effect:"goldenHour",value:3,color:"#fbbf24"},
 ];
 
+// ═══════════════════════════════════════════════════════════════
+// v15: EXTENDED POWERUPS (17 new = 22 total)
+// ═══════════════════════════════════════════════════════════════
+// Cash power-ups (5-12)
+const POWERUPS_CASH_EXT = [
+  {id:5,name:"Overtime",costMult:30,duration:120,desc:"Managers 3x speed",currency:'cash',effect:'managerSpeed',value:3},
+  {id:6,name:"Bulk Deal",costMult:20,duration:180,desc:"Purchases 25% off",currency:'cash',effect:'discount',value:0.25},
+  {id:7,name:"XP Surge",costMult:25,duration:120,desc:"3x XP from all sources",currency:'cash',effect:'xpMult',value:3},
+  {id:8,name:"Golden Hour",costMult:40,duration:60,desc:"Briefcases spawn 5x faster",currency:'cash',effect:'goldenSpawn',value:5},
+  {id:9,name:"Efficiency Expert",costMult:35,duration:180,desc:"No click decay",currency:'cash',effect:'noDecay',value:1},
+  {id:10,name:"Property Boom+",costMult:50,duration:120,desc:"Properties earn 3x",currency:'cash',effect:'propBoost',value:3},
+  {id:11,name:"Vehicle Rush",costMult:30,duration:120,desc:"Vehicles earn 3x",currency:'cash',effect:'vehBoost',value:3},
+  {id:12,name:"Compound Interest",costMult:60,duration:300,desc:"Income grows 1%/s",currency:'cash',effect:'compound',value:0.01},
+];
+// Gem power-ups (13-21)
+const POWERUPS_GEM = [
+  {id:13,name:"Diamond Hands",gemCost:15,duration:300,desc:"Click ×5, no decay",currency:'gem',effect:'diamondHands',value:5},
+  {id:14,name:"Midas Storm",gemCost:20,duration:180,desc:"Clicks may earn gems (1%)",currency:'gem',effect:'midasStorm',value:0.01},
+  {id:15,name:"Time Warp+",gemCost:30,duration:0,desc:"Skip 10min of income",currency:'gem',effect:'timeSkip',value:600,instant:true},
+  {id:16,name:"Mega Magnet",gemCost:10,duration:180,desc:"Auto-collect briefcases",currency:'gem',effect:'autoCollect',value:1},
+  {id:17,name:"Happiness Aura",gemCost:15,duration:600,desc:"+30 happiness",currency:'gem',effect:'happyBoost',value:30},
+  {id:18,name:"Population Surge",gemCost:20,duration:300,desc:"2x population bonuses",currency:'gem',effect:'popDouble',value:2},
+  {id:19,name:"Subway Express",gemCost:25,duration:300,desc:"Subway synergy doubled",currency:'gem',effect:'subwayBoost',value:2},
+  {id:20,name:"Prestige Preview",gemCost:35,duration:0,desc:"50% prestige rewards, no reset",currency:'gem',effect:'prestigePreview',value:0.5,instant:true},
+  {id:21,name:"Lucky Gem Rain",gemCost:10,duration:60,desc:"Tap falling gems!",currency:'gem',effect:'gemRain',value:1},
+];
+const ALL_POWERUP_EXT=[...POWERUPS_CASH_EXT,...POWERUPS_GEM];
+const BOOST_ICONS_EXT=['coffee','energy','goldenTouch','propBoom','taxRefund','energy','goldenTouch','goldenTouch','goldenTouch','coffee','propBoom','propBoom','coffee','goldenTouch','goldenTouch','energy','energy','goldenTouch','energy','goldenTouch','star','star'];
+const BOOST_COLORS_EXT=['#92400e','#1d4ed8','#854d0e','#065f46','#7c2d12','#1e40af','#166534','#7c3aed','#f59e0b','#0e7490','#065f46','#0e7490','#854d0e','#7c3aed','#6d28d9','#7c3aed','#4f46e5','#6366f1','#3b82f6','#7c3aed','#a855f7','#f59e0b'];
+let boostSubTab='cash';
+
+// ═══════════════════════════════════════════════════════════════
+// v15: BUILDING ADD-ONS (10 universal)
+// ═══════════════════════════════════════════════════════════════
+const BUILDING_ADDONS = [
+  {id:0,name:"WiFi Hotspot",costMult:10,currency:'cash',effect:'incomeBoost',value:0.15,icon:'📶',desc:'+15% building income'},
+  {id:1,name:"Security System",costMult:12,currency:'cash',effect:'taxSkip',value:1,icon:'📷',desc:'Tax inspector skips this building'},
+  {id:2,name:"Solar Panels",costMult:15,currency:'cash',effect:'incomeHappy',value:0.10,happyBonus:5,icon:'☀️',desc:'+10% income, +5 happiness'},
+  {id:3,name:"Vending Machines",costMult:8,currency:'cash',effect:'flatBonus',value:1,icon:'🥤',desc:'+flat income bonus'},
+  {id:4,name:"Employee Lounge",costMult:14,currency:'cash',effect:'managerBoost',value:0.50,icon:'🛋',desc:'Manager 50% faster here'},
+  {id:5,name:"Neon Sign",gemCost:5,currency:'gem',effect:'incomeHappy',value:0.20,happyBonus:3,icon:'💡',desc:'+20% income, +3 happiness'},
+  {id:6,name:"Rooftop Garden",gemCost:8,currency:'gem',effect:'incomeHappy',value:0.05,happyBonus:10,icon:'🌿',desc:'+10 happiness, +5% income'},
+  {id:7,name:"Helipad",gemCost:12,currency:'gem',effect:'incomeBoost',value:0.25,icon:'🚁',desc:'+25% income'},
+  {id:8,name:"Underground Vault",gemCost:10,currency:'gem',effect:'offlineStore',value:2,icon:'🏦',desc:'Stores 2hr offline income'},
+  {id:9,name:"AI Assistant",gemCost:15,currency:'gem',effect:'autoUpgrade',value:1,icon:'🤖',desc:'Auto-upgrades when affordable'},
+];
+
+// ═══════════════════════════════════════════════════════════════
+// v15: PREMIUM DECORATIONS (12 types, placed on empty cells)
+// ═══════════════════════════════════════════════════════════════
+const PREMIUM_DECORATIONS = [
+  {id:0,name:"Fountain",gemCost:15,happiness:5,icon:'⛲',desc:'Animated water'},
+  {id:1,name:"Park",gemCost:20,happiness:8,icon:'🌳',desc:'Green area with trees'},
+  {id:2,name:"Statue",gemCost:25,happiness:4,icon:'🗽',desc:'Gold figure'},
+  {id:3,name:"Clock Tower",gemCost:30,happiness:6,icon:'🕐',desc:'Tall tower'},
+  {id:4,name:"Ferris Wheel",gemCost:40,happiness:10,icon:'🎡',desc:'Rotating wheel'},
+  {id:5,name:"Zen Garden",gemCost:20,happiness:7,icon:'🪨',desc:'Sand and rocks'},
+  {id:6,name:"Billboard",gemCost:10,happiness:2,icon:'📺',desc:'Animated panel'},
+  {id:7,name:"Concert Stage",gemCost:35,happiness:12,icon:'🎸',desc:'Stage with lights'},
+  {id:8,name:"Skate Park",gemCost:25,happiness:6,icon:'🛹',desc:'Ramps and rails'},
+  {id:9,name:"Dog Park",gemCost:15,happiness:5,icon:'🐕',desc:'Fenced area'},
+  {id:10,name:"Botanical Garden",gemCost:45,happiness:15,icon:'🌺',desc:'Greenhouse'},
+  {id:11,name:"Hologram Display",gemCost:50,happiness:10,icon:'🔮',desc:'Floating holographic'},
+];
+
+// ═══════════════════════════════════════════════════════════════
+// v15: POPULATION PER BUILDING TYPE
+// ═══════════════════════════════════════════════════════════════
+const BASE_POPULATION = [0,2,3,15,8,5,20,12,25,30,50,40,60,35,20,10,20,30,50,100];
+
+// ═══════════════════════════════════════════════════════════════
+// v15: GEM SHOP PACKAGES (fake IAP)
+// ═══════════════════════════════════════════════════════════════
+const GEM_PACKAGES = [
+  {name:"Handful",gems:50,price:"$0.99",bonus:0},
+  {name:"Pouch",gems:150,price:"$2.99",bonus:0.20},
+  {name:"Chest",gems:500,price:"$9.99",bonus:0.35},
+  {name:"Vault",gems:1200,price:"$19.99",bonus:0.50},
+  {name:"Treasury",gems:3000,price:"$49.99",bonus:0.65},
+  {name:"Dragon Hoard",gems:8000,price:"$99.99",bonus:0.80},
+];
+
+// ═══════════════════════════════════════════════════════════════
+// v15: DAILY GEM REWARDS (7-day cycle replaces old daily)
+// ═══════════════════════════════════════════════════════════════
+const DAILY_GEM_REWARDS = [5, 10, 15, 20, 25, 50, 100];
+
 // MILESTONE BONUSES: at 25/50/100/200 owned, output doubles
 const MILESTONE_THRESHOLDS = [25,50,100,200];
 function getMilestoneBonus(owned){
@@ -1005,7 +1244,7 @@ function loadSettings(){
 // GAME STATE
 // ═══════════════════════════════════════════════════════════════
 const state = {
-  version:14,
+  version:15,
   cash:0, totalCash:0, totalClicks:0, baseClickValue:1,
   multiplier:1, clickMultBonus:1, passiveMultBonus:1,
   vehicles: VEHICLES.map(()=>0),
@@ -1052,6 +1291,23 @@ const state = {
   timeWarpLastUse:0,
   // Manager NPC visual states (not saved — rebuilt)
   managerNPCs:null,
+  // v15: Gems
+  gems:0, totalGemsEarned:0, totalGemsSpent:0,
+  dailyLoginDay:0, lastLoginDate:null,
+  // v15: Happiness
+  happiness:50,
+  // v15: Subway
+  subwayLines:[], subwayBuildQueue:null, maxSubwayLines:5,
+  // v15: Extended power-ups
+  activePowerups:[], // [{id, endTime, effect, value}]
+  // v15: Citizen dots (not saved — rebuilt)
+  citizenDots:[],
+  // v15: Time-of-day phase (cosmetic, not saved)
+  todPhase:0, todTimer:0,
+  // v15: Compound interest accumulator
+  compoundAccum:1.0,
+  // v15: Gem rain minigame
+  gemRainDrops:[],
 };
 
 let currentShopTab = "vehicles";
@@ -1116,12 +1372,17 @@ function getClickValue(){
   let v=state.baseClickValue+state.achievementClickBonus;
   if(state.prestigePerks.clickBoost)v+=PRESTIGE_PERKS.find(p=>p.id==='clickBoost').value;
   v+=state.infinitePerkLevels[1]*INFINITE_PERKS[1].bonusPer; // Iron Fist
-  for(let i=0;i<VEHICLES.length;i++)v+=VEHICLES[i].clickBonus*state.vehicles[i]*getMilestoneBonus(state.vehicles[i]);
+  for(let i=0;i<VEHICLES.length;i++){
+    let vb=VEHICLES[i].clickBonus*state.vehicles[i]*getMilestoneBonus(state.vehicles[i]);
+    // v15: Vehicle Rush powerup (id 11): vehicles earn 3x
+    if(hasActivePowerup(11))vb*=3;
+    v+=vb;
+  }
   return v*getEffectiveMultiplier()*state.clickMultBonus*(1+getPerkEffect('clickBonus'));
 }
 function getIncome(){
   let v=state.achievementIncomeBonus;
-  // Per-building income with level multiplier
+  // Per-building income with level multiplier + addon bonuses
   const gs=getGridSize();
   if(state.cityGrid){
     for(let r=0;r<gs;r++){
@@ -1132,19 +1393,29 @@ function getIncome(){
           const prop=PROPERTIES[bld.tier];
           if(!prop)continue;
           const levelMult=1+0.25*((bld.level||1)-1);
-          v+=prop.income*levelMult*getMilestoneBonus(state.properties[bld.tier]);
+          let bldIncome=prop.income*levelMult*getMilestoneBonus(state.properties[bld.tier]);
+          // Building addon bonuses
+          bldIncome*=getBuildingAddonBonus(bld);
+          // Subway synergy bonus for this building cell
+          bldIncome*=(1+getSubwaySynergyBonus(r,c));
+          // Property Boom+ powerup: properties earn 3x
+          if(hasActivePowerup(10))bldIncome*=3;
+          v+=bldIncome;
         }
       }
     }
   }else{
-    // Fallback: old property-count-based
     for(let i=0;i<PROPERTIES.length;i++)v+=PROPERTIES[i].income*state.properties[i]*getMilestoneBonus(state.properties[i]);
   }
   const infBonus=1+state.infinitePerkLevels[0]*INFINITE_PERKS[0].bonusPer; // Empire Growth
   const perkIncome=1+getPerkEffect('incomeBonus');
   const synergy=1+getSynergyBonus();
   const momentum=1+getMomentumBonus();
-  return v*getEffectiveMultiplier()*state.passiveMultBonus*infBonus*perkIncome*synergy*momentum;
+  // v15: happiness multiplier + population bonus + compound interest
+  const happinessMult=getHappinessMultiplier();
+  const popBonus=1+getPopulationIncomeBonus();
+  const compoundMult=state.compoundAccum||1.0;
+  return v*getEffectiveMultiplier()*state.passiveMultBonus*infBonus*perkIncome*synergy*momentum*happinessMult*popBonus*compoundMult;
 }
 function recalcMultiplier(){ let m=1;for(let i=0;i<LICENSES.length;i++){if(state.licenses[i])m=Math.max(m,LICENSES[i].multiplier);}state.multiplier=m; }
 function getPowerupCost(idx){ return Math.floor(POWERUPS[idx].baseCost*Math.pow(POWERUPS[idx].costScale,state.powerups[idx].uses)); }
@@ -1195,7 +1466,10 @@ function onLevelUp(){
   el.className='level-up-text';el.textContent='LEVEL '+state.xpLevel+'!';
   document.body.appendChild(el);
   setTimeout(()=>el.remove(),1300);
-  notify('Level '+state.xpLevel+'! +1 Perk Point');
+  // v15: Gems from level up (5 + level)
+  const gemReward=5+state.xpLevel;
+  addGems(gemReward);
+  notify('Level '+state.xpLevel+'! +1 Perk Point, +'+gemReward+' Gems');
   updatePerkBadge();
 }
 function updateXPBar(){
@@ -1266,6 +1540,573 @@ function getSynergyBonus(){
   for(let i=0;i<PROPERTIES.length;i++){if(state.properties[i]>0)types++;}
   return Math.min(types*0.05,1.0); // max 100%
 }
+// ═══════════════════════════════════════════════════════════════
+// v15: GEMS SYSTEM
+// ═══════════════════════════════════════════════════════════════
+function addGems(amount){
+  state.gems+=amount;state.totalGemsEarned+=amount;
+  updateHUD();
+}
+function spendGems(amount){
+  if(state.gems<amount)return false;
+  state.gems-=amount;state.totalGemsSpent+=amount;
+  updateHUD();return true;
+}
+function gemToGoldRate(){return Math.floor(getIncome()*60)||100;}
+function convertGemsToGold(count){
+  if(state.gems<count)return;
+  const gold=gemToGoldRate()*count;
+  state.gems-=count;state.totalGemsSpent+=count;
+  state.cash+=gold;state.totalCash+=gold;
+  notify('+'+fmt(gold)+' from '+count+' gems');
+  playSound('buy');updateHUD();
+}
+function buyGemPackage(idx){
+  const pkg=GEM_PACKAGES[idx];
+  const totalGems=Math.floor(pkg.gems*(1+pkg.bonus));
+  addGems(totalGems);
+  playSound('fanfare');haptic(40);
+  notify('Purchased '+pkg.name+'! +'+totalGems+' gems');
+  spawnConfetti();
+  if(currentView==='shop')renderShop();
+}
+function spawnConfetti(){
+  const colors=['#f0c040','#a78bfa','#34d399','#60a5fa','#f87171','#fbbf24'];
+  for(let i=0;i<30;i++){
+    const el=document.createElement('div');
+    el.className='confetti';
+    el.style.left=(Math.random()*100)+'%';
+    el.style.top='-20px';
+    el.style.background=colors[Math.floor(Math.random()*colors.length)];
+    el.style.animationDelay=(Math.random()*0.5)+'s';
+    el.style.borderRadius=Math.random()>0.5?'50%':'0';
+    document.body.appendChild(el);
+    setTimeout(()=>el.remove(),2500);
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════
+// v15: HAPPINESS SYSTEM
+// ═══════════════════════════════════════════════════════════════
+function calculateHappiness(){
+  let h=50; // Base happiness
+  // Decorations
+  if(state.cityGrid){
+    const gs=state.cityGrid.length;
+    for(let r=0;r<gs;r++){
+      if(!state.cityGrid[r])continue;
+      for(let c=0;c<gs;c++){
+        if(!state.cityGrid[r][c])continue;
+        // Building addons that give happiness
+        for(const bld of state.cityGrid[r][c]){
+          if(bld.buildingAddons){
+            for(const addonIdx of bld.buildingAddons){
+              const addon=BUILDING_ADDONS[addonIdx];
+              if(addon&&addon.happyBonus)h+=addon.happyBonus;
+            }
+          }
+        }
+        // Cell decorations (stored as _decoration on the array)
+        if(state.cityGrid[r][c]._decoration!==undefined&&state.cityGrid[r][c]._decoration!==null){
+          const deco=PREMIUM_DECORATIONS[state.cityGrid[r][c]._decoration];
+          if(deco)h+=deco.happiness;
+        }
+      }
+    }
+  }
+  // Subway coverage
+  h+=state.subwayLines.length*5;
+  // Building variety bonus
+  let uniqueTypes=0;
+  for(let i=0;i<PROPERTIES.length;i++){if(state.properties[i]>0)uniqueTypes++;}
+  h+=uniqueTypes;
+  // Population density penalty
+  const pop=getPopulation();
+  const capacity=state.landCells*100;
+  if(pop>capacity)h-=Math.floor((pop-capacity)/5);
+  // Tax inspector penalty
+  if(state.taxInspector.active&&state.taxInspector.draining)h-=10;
+  // Active powerup bonus
+  for(const pu of state.activePowerups){
+    if(pu.effect==='happyBoost')h+=pu.value;
+  }
+  return Math.max(0,Math.min(100,h));
+}
+function getHappinessMultiplier(){
+  const h=state.happiness;
+  if(h>=80)return 1.0+(h-80)*0.025;
+  if(h>=50)return 0.8+(h-50)*0.0067;
+  if(h>=20)return 0.5+(h-20)*0.01;
+  return 0.3+h*0.01;
+}
+function updateHappinessUI(){
+  state.happiness=calculateHappiness();
+  const h=state.happiness;
+  const icon=h>=70?'😊':h>=40?'😐':'😟';
+  const color=h>=70?'#22c55e':h>=40?'#eab308':'#ef4444';
+  const iconEl=document.getElementById('happiness-icon');
+  const fillEl=document.getElementById('happiness-fill');
+  const valEl=document.getElementById('happiness-val');
+  if(iconEl)iconEl.textContent=icon;
+  if(fillEl){fillEl.style.width=h+'%';fillEl.style.background=color;}
+  if(valEl)valEl.textContent=h;
+}
+
+// ═══════════════════════════════════════════════════════════════
+// v15: POPULATION SYSTEM
+// ═══════════════════════════════════════════════════════════════
+function getPopulation(){
+  let pop=0;
+  if(state.cityGrid){
+    const gs=state.cityGrid.length;
+    for(let r=0;r<gs;r++){
+      if(!state.cityGrid[r])continue;
+      for(let c=0;c<gs;c++){
+        if(!state.cityGrid[r][c])continue;
+        for(const bld of state.cityGrid[r][c]){
+          const basePop=BASE_POPULATION[bld.tier]||0;
+          pop+=basePop*(bld.level||1);
+        }
+      }
+    }
+  }
+  // Population Surge powerup
+  for(const pu of state.activePowerups){
+    if(pu.effect==='popDouble')pop*=pu.value;
+  }
+  return Math.floor(pop);
+}
+function getPopulationIncomeBonus(){
+  const pop=getPopulation();
+  return Math.min(1.0,Math.floor(pop/100)*0.05); // +5% per 100, cap +100%
+}
+
+// ═══════════════════════════════════════════════════════════════
+// v15: CITIZEN DOTS (visual)
+// ═══════════════════════════════════════════════════════════════
+const CITIZEN_COLORS=['#ef4444','#3b82f6','#22c55e','#f59e0b','#a855f7','#06b6d4','#f97316','#ec4899'];
+const MAX_CITIZEN_DOTS=40;
+function updateCitizenDots(dt){
+  const pop=getPopulation();
+  const desired=Math.min(MAX_CITIZEN_DOTS,Math.floor(pop/10));
+  // Spawn new dots
+  while(state.citizenDots.length<desired){
+    const gs=getGridSize();
+    const pad=getGridPad(),cellW=(canvasW-pad*2)/gs;
+    const r=Math.floor(Math.random()*(gs+1)),c=Math.floor(Math.random()*(gs+1));
+    state.citizenDots.push({
+      x:pad+c*cellW,y:pad+r*cellW,
+      tx:pad+Math.floor(Math.random()*(gs+1))*cellW,ty:pad+Math.floor(Math.random()*(gs+1))*cellW,
+      speed:15+Math.random()*20,
+      color:CITIZEN_COLORS[Math.floor(Math.random()*CITIZEN_COLORS.length)],
+      pauseTimer:0
+    });
+  }
+  // Remove excess
+  while(state.citizenDots.length>desired)state.citizenDots.pop();
+  // Update movement
+  for(const dot of state.citizenDots){
+    if(dot.pauseTimer>0){dot.pauseTimer-=dt;continue;}
+    const dx=dot.tx-dot.x,dy=dot.ty-dot.y,dist=Math.sqrt(dx*dx+dy*dy);
+    if(dist<3){
+      // Pick new target along grid lines
+      const gs=getGridSize();
+      const pad=getGridPad(),cellW=(canvasW-pad*2)/gs;
+      dot.tx=pad+Math.floor(Math.random()*(gs+1))*cellW;
+      dot.ty=pad+Math.floor(Math.random()*(gs+1))*cellW;
+      dot.pauseTimer=0.5+Math.random()*2; // Pause at buildings
+    }else{
+      const step=dot.speed*dt;
+      dot.x+=(dx/dist)*step;dot.y+=(dy/dist)*step;
+    }
+  }
+}
+function drawCitizenDots(c){
+  if(state.citizenDots.length===0)return;
+  for(const dot of state.citizenDots){
+    c.fillStyle=dot.color;
+    c.globalAlpha=0.7;
+    c.beginPath();c.arc(dot.x,dot.y,2,0,Math.PI*2);c.fill();
+  }
+  c.globalAlpha=1;
+}
+
+// ═══════════════════════════════════════════════════════════════
+// v15: SUBWAY SYSTEM
+// ═══════════════════════════════════════════════════════════════
+const SUBWAY_COLORS=['#ef4444','#3b82f6','#22c55e','#f59e0b','#a855f7'];
+function getSubwayCost(cellA,cellB){
+  const dist=Math.abs(cellA.r-cellB.r)+Math.abs(cellA.c-cellB.c);
+  return Math.floor(20+dist*15);
+}
+function getSubwaySynergyBonus(targetR,targetC){
+  let bonus=0;
+  const mult=hasActivePowerup(19)?2:1; // Subway Express powerup
+  for(const line of state.subwayLines){
+    if(line.buildProgress<1)continue;
+    if(targetR!==undefined&&targetC!==undefined){
+      // Specific cell: only count lines connected to this cell
+      if((line.cellA.r===targetR&&line.cellA.c===targetC)||(line.cellB.r===targetR&&line.cellB.c===targetC)){
+        bonus+=0.10*mult;
+      }
+    }else{
+      bonus+=0.10*mult;
+    }
+  }
+  return bonus;
+}
+function startSubwayBuild(cellA,cellB){
+  if(state.subwayLines.length>=state.maxSubwayLines){notify('Max subway lines reached!');return;}
+  // Note: gems already spent by caller (handleSubwaySelect)
+  const dist=Math.abs(cellA.r-cellB.r)+Math.abs(cellA.c-cellB.c);
+  const duration=30+dist*15; // 30-120 seconds
+  const line={cellA:{r:cellA.r,c:cellA.c},cellB:{r:cellB.r,c:cellB.c},buildProgress:0,lineColor:state.subwayLines.length%SUBWAY_COLORS.length,buildStart:Date.now(),buildDuration:duration*1000};
+  state.subwayLines.push(line);
+  playSound('buy');
+}
+function updateSubwayBuilds(){
+  for(const line of state.subwayLines){
+    if(line.buildProgress<1){
+      line.buildProgress=Math.min(1,(Date.now()-line.buildStart)/line.buildDuration);
+    }
+  }
+}
+function drawSubwayLines(c,gs){
+  const pad=getGridPad(),cellW=(canvasW-pad*2)/gs;
+  for(const line of state.subwayLines){
+    const ax=pad+line.cellA.c*cellW+cellW/2,ay=pad+line.cellA.r*cellW+cellW/2;
+    const bx=pad+line.cellB.c*cellW+cellW/2,by=pad+line.cellB.r*cellW+cellW/2;
+    const color=SUBWAY_COLORS[line.lineColor];
+    c.save();
+    c.globalAlpha=line.buildProgress<1?0.3:0.6;
+    c.strokeStyle=color;c.lineWidth=3;c.setLineDash([6,4]);
+    c.shadowColor=color;c.shadowBlur=8;
+    const progress=line.buildProgress;
+    c.beginPath();c.moveTo(ax,ay);
+    c.lineTo(ax+(bx-ax)*progress,ay+(by-ay)*progress);
+    c.stroke();
+    c.setLineDash([]);
+    // Station markers
+    if(line.buildProgress>=1){
+      c.fillStyle=color;c.globalAlpha=0.8;
+      c.beginPath();c.arc(ax,ay,4,0,Math.PI*2);c.fill();
+      c.beginPath();c.arc(bx,by,4,0,Math.PI*2);c.fill();
+      // Moving train dot
+      const t=(Date.now()%4000)/4000;
+      const tx=ax+(bx-ax)*t,ty=ay+(by-ay)*t;
+      c.fillStyle='#fff';c.beginPath();c.arc(tx,ty,3,0,Math.PI*2);c.fill();
+    }
+    c.restore();
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════
+// v15: BUILDING ADDON FUNCTIONS
+// ═══════════════════════════════════════════════════════════════
+function getAddonCost(addon){
+  if(addon.currency==='gem')return addon.gemCost;
+  return Math.floor(getIncome()*addon.costMult);
+}
+function installAddon(bld,addonIdx){
+  if(!bld.buildingAddons)bld.buildingAddons=[];
+  if(bld.buildingAddons.length>=3){notify('Max 3 add-ons per building');return false;}
+  if(bld.buildingAddons.includes(addonIdx)){notify('Already installed');return false;}
+  const addon=BUILDING_ADDONS[addonIdx];
+  if(addon.currency==='gem'){
+    if(!spendGems(addon.gemCost))return false;
+  }else{
+    const cost=getAddonCost(addon);
+    if(state.cash<cost)return false;
+    state.cash-=cost;
+  }
+  bld.buildingAddons.push(addonIdx);
+  notify('Installed '+addon.name+'!');
+  updateHUD();
+  return true;
+}
+function getBuildingAddonBonus(bld){
+  // Returns income multiplier from all addons on this building
+  let mult=1;
+  if(!bld.buildingAddons)return mult;
+  for(const idx of bld.buildingAddons){
+    const addon=BUILDING_ADDONS[idx];
+    if(!addon)continue;
+    // incomeBoost and incomeHappy both add income %
+    if(addon.effect==='incomeBoost'||addon.effect==='incomeHappy')mult+=addon.value;
+  }
+  return mult;
+}
+
+// ═══════════════════════════════════════════════════════════════
+// v15: DECORATION PLACEMENT
+// ═══════════════════════════════════════════════════════════════
+function placeDecoration(decoIdx,row,col){
+  if(!state.cityGrid||!state.cityGrid[row]||!state.cityGrid[row][col])return;
+  if(state.cityGrid[row][col].length>0){notify('Cell must be empty');return;}
+  const deco=PREMIUM_DECORATIONS[decoIdx];
+  if(!spendGems(deco.gemCost)){notify('Not enough gems');return;}
+  // Store decoration on the cell array as a special property
+  state.cityGrid[row][col]._decoration=decoIdx;
+  playSound('buy');haptic(15);
+  notify('Placed '+deco.name+'!');
+  invalidateBuildingCache();updateHUD();
+}
+
+// ═══════════════════════════════════════════════════════════════
+// v15: EXTENDED POWERUP SYSTEM
+// ═══════════════════════════════════════════════════════════════
+function activateExtPowerup(puDef){
+  // Check if already active (max 3)
+  if(state.activePowerups.length>=3){notify('Max 3 active power-ups!');return;}
+  if(state.activePowerups.find(p=>p.id===puDef.id)){notify('Already active!');return;}
+  // Pay cost
+  if(puDef.currency==='gem'){
+    if(!spendGems(puDef.gemCost)){notify('Not enough gems');return;}
+  }else{
+    const cost=Math.floor(getIncome()*puDef.costMult);
+    if(state.cash<cost){notify('Not enough cash');return;}
+    state.cash-=cost;
+  }
+  // Instant effects
+  if(puDef.instant){
+    if(puDef.effect==='timeSkip'){
+      const bonus=getIncome()*puDef.value;
+      state.cash+=bonus;state.totalCash+=bonus;
+      notify('Time Warp! +'+fmt(bonus));
+    }else if(puDef.effect==='prestigePreview'){
+      const gain=getPrestigeGain();
+      const bonus=Math.floor(gain*puDef.value);
+      state.prestigePoints+=bonus;
+      state.prestigeMultiplier=1+state.prestigePoints*0.1;
+      notify('Prestige Preview! +'+bonus+' pts');
+    }
+    playSound('buy');haptic(20);updateHUD();
+    if(currentView==='boosts')renderBoosts();
+    return;
+  }
+  // Duration-based
+  state.activePowerups.push({
+    id:puDef.id,effect:puDef.effect,value:puDef.value,
+    endTime:Date.now()+puDef.duration*1000,name:puDef.name
+  });
+  playSound('buy');haptic(20);
+  notify(puDef.name+' activated!');
+  updateHUD();updateActivePowerupBadges();
+  if(currentView==='boosts')renderBoosts();
+}
+function hasActivePowerup(idOrEffect){
+  return state.activePowerups.some(p=>(p.id===idOrEffect||p.effect===idOrEffect)&&Date.now()<p.endTime);
+}
+function getActivePowerupValue(idOrEffect){
+  const pu=state.activePowerups.find(p=>(p.id===idOrEffect||p.effect===idOrEffect)&&Date.now()<p.endTime);
+  return pu?pu.value:0;
+}
+function updateActivePowerups(){
+  state.activePowerups=state.activePowerups.filter(p=>Date.now()<p.endTime);
+  updateActivePowerupBadges();
+}
+function updateActivePowerupBadges(){
+  const cont=document.getElementById('active-powerups');
+  if(!cont)return;
+  cont.innerHTML='';
+  for(const pu of state.activePowerups){
+    const remaining=Math.max(0,Math.ceil((pu.endTime-Date.now())/1000));
+    const badge=document.createElement('div');badge.className='pu-badge';
+    badge.innerHTML=`${pu.name} <span class="pu-badge-timer">${remaining}s</span>`;
+    cont.appendChild(badge);
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════
+// v15: GRAPHICS ENHANCEMENTS
+// ═══════════════════════════════════════════════════════════════
+const TOD_PHASES = [
+  {name:'Dawn',overlay:'rgba(255,140,50,0.05)',duration:75},
+  {name:'Day',overlay:'rgba(0,0,0,0)',duration:150},
+  {name:'Dusk',overlay:'rgba(180,80,200,0.06)',duration:75},
+  {name:'Night',overlay:'rgba(10,10,60,0.12)',duration:100},
+];
+function updateTimeOfDay(dt){
+  state.todTimer+=dt;
+  let totalCycle=0;for(const p of TOD_PHASES)totalCycle+=p.duration;
+  const cyclePos=state.todTimer%totalCycle;
+  let accum=0;
+  for(let i=0;i<TOD_PHASES.length;i++){
+    accum+=TOD_PHASES[i].duration;
+    if(cyclePos<accum){state.todPhase=i;break;}
+  }
+  const overlay=document.getElementById('tod-overlay');
+  if(overlay)overlay.style.background=TOD_PHASES[state.todPhase].overlay;
+}
+function drawBuildingShadows(c,gs){
+  if(!state.cityGrid)return;
+  const pad=getGridPad(),cellW=(canvasW-pad*2)/gs;
+  c.save();c.globalAlpha=0.15;c.fillStyle='#000';
+  for(let r=0;r<gs;r++){
+    if(!state.cityGrid[r])continue;
+    for(let col=0;col<gs;col++){
+      if(!state.cityGrid[r][col]||state.cityGrid[r][col].length===0)continue;
+      const cx=pad+col*cellW,cy=pad+r*cellW;
+      const maxTier=Math.max(...state.cityGrid[r][col].map(b=>b.tier));
+      const shadowLen=2+maxTier*0.8;
+      c.beginPath();
+      c.moveTo(cx+cellW,cy+cellW);
+      c.lineTo(cx+cellW+shadowLen,cy+cellW+shadowLen*0.5);
+      c.lineTo(cx+shadowLen,cy+cellW+shadowLen*0.5);
+      c.lineTo(cx,cy+cellW);
+      c.closePath();c.fill();
+    }
+  }
+  c.restore();
+}
+// Ambient particles (birds, dust motes)
+let ambientParticles=[];
+function updateAmbientParticles(dt){
+  // Spawn birds/planes
+  if(ambientParticles.length<8&&Math.random()<0.02){
+    ambientParticles.push({
+      x:-20,y:30+Math.random()*80,
+      vx:15+Math.random()*25,vy:(Math.random()-0.5)*3,
+      type:Math.random()>0.7?'plane':'bird',
+      life:15+Math.random()*10
+    });
+  }
+  for(let i=ambientParticles.length-1;i>=0;i--){
+    const p=ambientParticles[i];
+    p.x+=p.vx*dt;p.y+=p.vy*dt;p.life-=dt;
+    if(p.life<=0||p.x>canvasW+50)ambientParticles.splice(i,1);
+  }
+}
+function drawAmbientParticles(c){
+  c.save();
+  for(const p of ambientParticles){
+    c.fillStyle='rgba(100,100,120,0.4)';
+    if(p.type==='bird'){
+      c.beginPath();c.moveTo(p.x,p.y);c.lineTo(p.x-3,p.y-2);c.lineTo(p.x-1,p.y);c.lineTo(p.x-3,p.y+2);c.closePath();c.fill();
+    }else{
+      c.fillRect(p.x-4,p.y-1,8,2);
+      c.fillRect(p.x-2,p.y-3,4,1);
+    }
+  }
+  c.restore();
+}
+// Parallax background clouds
+let cloudPositions=[];
+function initClouds(){
+  for(let i=0;i<5;i++){
+    cloudPositions.push({x:Math.random()*canvasW,y:20+Math.random()*60,w:40+Math.random()*60,speed:2+Math.random()*4});
+  }
+}
+function drawParallaxClouds(c){
+  if(cloudPositions.length===0)initClouds();
+  c.save();c.globalAlpha=0.04;c.fillStyle='#fff';
+  for(const cl of cloudPositions){
+    cl.x+=cl.speed*0.016;
+    if(cl.x>canvasW+cl.w)cl.x=-cl.w;
+    c.beginPath();
+    c.ellipse(cl.x,cl.y-state.camera.y*0.1,cl.w/2,8,0,0,Math.PI*2);c.fill();
+    c.beginPath();
+    c.ellipse(cl.x+cl.w*0.2,cl.y-4-state.camera.y*0.1,cl.w*0.3,6,0,0,Math.PI*2);c.fill();
+  }
+  c.restore();
+}
+// Draw decorations on cells
+function drawCellDecorations(c,gs){
+  if(!state.cityGrid)return;
+  const pad=getGridPad(),cellW=(canvasW-pad*2)/gs;
+  for(let r=0;r<gs;r++){
+    if(!state.cityGrid[r])continue;
+    for(let col=0;col<gs;col++){
+      if(!state.cityGrid[r][col])continue;
+      const decoIdx=state.cityGrid[r][col]._decoration;
+      if(decoIdx===undefined||decoIdx===null)continue;
+      const deco=PREMIUM_DECORATIONS[decoIdx];
+      if(!deco)continue;
+      const cx=pad+col*cellW+cellW/2,cy=pad+r*cellW+cellW/2;
+      c.save();c.font=Math.max(16,cellW*0.4)+'px sans-serif';c.textAlign='center';c.textBaseline='middle';
+      c.fillText(deco.icon,cx,cy);
+      c.restore();
+    }
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════
+// v15: GEM RAIN MINI-GAME
+// ═══════════════════════════════════════════════════════════════
+function updateGemRain(dt){
+  if(!hasActivePowerup(21))return;
+  // Spawn new drops
+  if(Math.random()<0.15){
+    state.gemRainDrops.push({x:Math.random()*canvasW,y:-20,vy:80+Math.random()*60,collected:false,life:8});
+  }
+  for(let i=state.gemRainDrops.length-1;i>=0;i--){
+    const d=state.gemRainDrops[i];
+    d.y+=d.vy*dt;d.life-=dt;
+    if(d.y>canvasH||d.life<=0||d.collected)state.gemRainDrops.splice(i,1);
+  }
+}
+function drawGemRain(c){
+  for(const d of state.gemRainDrops){
+    if(d.collected)continue;
+    c.save();c.fillStyle='#a78bfa';c.globalAlpha=0.8;
+    c.beginPath();
+    c.moveTo(d.x,d.y-6);c.lineTo(d.x+5,d.y);c.lineTo(d.x,d.y+6);c.lineTo(d.x-5,d.y);
+    c.closePath();c.fill();
+    c.fillStyle='rgba(255,255,255,.4)';
+    c.beginPath();c.moveTo(d.x-1,d.y-3);c.lineTo(d.x+2,d.y);c.lineTo(d.x-1,d.y+1);c.closePath();c.fill();
+    c.restore();
+  }
+}
+function checkGemRainTap(wx,wy){
+  for(const d of state.gemRainDrops){
+    if(d.collected)continue;
+    if(Math.abs(d.x-wx)<20&&Math.abs(d.y-wy)<20){
+      d.collected=true;
+      addGems(1);
+      floatTexts.push({x:wx,y:wy,text:'+1 💎',color:'#a78bfa',size:16,life:0.8});
+      return true;
+    }
+  }
+  return false;
+}
+
+// ═══════════════════════════════════════════════════════════════
+// v15: DESKTOP KEYBOARD SHORTCUTS
+// ═══════════════════════════════════════════════════════════════
+function setupKeyboardShortcuts(){
+  if(!IS_DESKTOP)return;
+  document.addEventListener('keydown',(e)=>{
+    if(e.target.tagName==='INPUT'||e.target.tagName==='TEXTAREA')return;
+    switch(e.code){
+      case'Space':e.preventDefault();handleClick({clientX:canvasW/2,clientY:canvasH/2});break;
+      case'Digit1':switchToShopTab('properties');break;
+      case'Digit2':switchToShopTab('land');break;
+      case'Digit3':switchToShopTab('vehicles');break;
+      case'Digit4':switchToShopTab('managers');break;
+      case'Digit5':switchToShopTab('licenses');break;
+      case'Digit6':switchToShopTab('gems');break;
+      case'Digit7':switchToShopTab('subway');break;
+      case'Digit8':switchToShopTab('cosmetics');break;
+      case'Digit9':switchToShopTab('avatar');break;
+      case'KeyP':switchView('stats');currentStatsTab='perks';renderStats();break;
+      case'KeyS':switchView('stats');currentStatsTab='statistics';renderStats();break;
+      case'Escape':switchView('game');break;
+    }
+  });
+}
+function switchToShopTab(tab){
+  switchView('shop');
+  currentShopTab=tab;
+  document.querySelectorAll('#shop-tabs .tab-btn').forEach(t=>t.classList.toggle('active',t.dataset.tab===tab));
+  document.getElementById('bulk-bar').style.display=(tab==='vehicles'||tab==='properties')?'flex':'none';
+  renderShop();
+}
+function dsSwitchView(view){
+  switchView(view);
+  document.querySelectorAll('.ds-btn').forEach(b=>b.classList.remove('active'));
+  event.target.classList.add('active');
+}
+
 // Update stamina bar UI
 function updateStaminaBar(){
   const fill=document.getElementById('stamina-fill');
@@ -1348,14 +2189,72 @@ function showUpgradePopup(bld,cellR,cellC,slotIdx){
   }else{
     btn.textContent='Need '+fmt(upgCost);btn.className='up-btn cant-buy';
   }
+  // v15: Building addon slots
+  let addonEl=document.getElementById('up-addons');
+  if(!addonEl){
+    addonEl=document.createElement('div');addonEl.id='up-addons';
+    document.getElementById('upgrade-popup').appendChild(addonEl);
+  }
+  addonEl.innerHTML='';
+  addonEl.style.cssText='margin-top:8px;padding-top:8px;border-top:1px solid rgba(255,255,255,.1)';
+  const addons=bld.buildingAddons||[];
+  const slotsHtml=document.createElement('div');slotsHtml.className='addon-slots';
+  slotsHtml.style.cssText='display:flex;gap:6px;margin-bottom:6px';
+  for(let s=0;s<3;s++){
+    const slot=document.createElement('div');slot.className='addon-slot';
+    slot.style.cssText='width:36px;height:36px;border-radius:8px;border:2px dashed rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;font-size:11px;cursor:pointer';
+    if(addons[s]!==undefined&&addons[s]!==null){
+      const ad=BUILDING_ADDONS[addons[s]];
+      slot.style.border='2px solid var(--green)';slot.style.background='rgba(52,211,153,.1)';
+      slot.textContent=ad.icon;slot.title=ad.name;
+    }else{
+      slot.textContent='+';slot.style.color='var(--text-muted)';
+      slot.onclick=()=>showAddonPicker(bld,cellR,cellC,slotIdx,s);
+    }
+    slotsHtml.appendChild(slot);
+  }
+  addonEl.appendChild(slotsHtml);
+  const addonLabel=document.createElement('div');addonLabel.style.cssText='font-size:10px;color:var(--text-muted)';
+  addonLabel.textContent='Add-ons: '+addons.filter(a=>a!=null).length+'/3';
+  addonEl.appendChild(addonLabel);
   // Position popup near building
   const gs=getGridSize(),pad=getGridPad(),cellW=(canvasW-pad*2)/gs;
   const worldX=pad+cellC*cellW+cellW/2,worldY=pad+cellR*cellW+cellW/2;
   const screen=worldToScreen(worldX,worldY);
   const popup=document.getElementById('upgrade-popup');
   popup.style.left=Math.min(canvasW-220,Math.max(10,screen.x-100))+'px';
-  popup.style.top=Math.min(canvasH-180,Math.max(10,screen.y-140))+'px';
+  popup.style.top=Math.min(canvasH-260,Math.max(10,screen.y-180))+'px';
   popup.classList.add('show');
+}
+function showAddonPicker(bld,cellR,cellC,slotIdx,addonSlot){
+  const popup=document.getElementById('upgrade-popup');
+  let picker=document.getElementById('addon-picker');
+  if(picker)picker.remove();
+  picker=document.createElement('div');picker.id='addon-picker';
+  picker.style.cssText='position:absolute;top:0;left:0;right:0;bottom:0;background:var(--surface-solid);border-radius:var(--radius);padding:8px;overflow-y:auto;z-index:5';
+  const hdr=document.createElement('div');hdr.style.cssText='display:flex;justify-content:space-between;align-items:center;margin-bottom:8px';
+  hdr.innerHTML='<span style="font-weight:700;font-size:13px">Install Add-on</span>';
+  const closeBtn=document.createElement('button');closeBtn.textContent='✕';closeBtn.style.cssText='background:none;border:none;color:var(--text);font-size:16px;cursor:pointer';
+  closeBtn.onclick=()=>picker.remove();
+  hdr.appendChild(closeBtn);picker.appendChild(hdr);
+  BUILDING_ADDONS.forEach((ad,i)=>{
+    const installed=bld.buildingAddons&&bld.buildingAddons.includes(i);
+    const cost=getAddonCost(ad,i);
+    const isGem=ad.currency==='gems';
+    const can=isGem?((state.gems||0)>=cost):(state.cash>=cost);
+    const row=document.createElement('div');
+    row.style.cssText='display:flex;align-items:center;gap:8px;padding:6px;border-radius:8px;margin-bottom:4px;cursor:pointer;background:'+(installed?'rgba(52,211,153,.1)':can?'rgba(255,255,255,.03)':'rgba(255,255,255,.01)');
+    row.innerHTML=`<span style="font-size:18px">${ad.icon}</span><div style="flex:1"><div style="font-size:12px;font-weight:700">${ad.name}</div><div style="font-size:10px;color:var(--text-muted)">${ad.desc}</div></div><div style="font-size:11px;font-weight:700;color:${installed?'var(--green)':isGem?'var(--purple)':'var(--gold)'}">${installed?'Installed':(isGem?cost+' 💎':fmt(cost))}</div>`;
+    if(!installed&&can)row.onclick=()=>{
+      if(installAddon(bld,i)){
+        picker.remove();
+        showUpgradePopup(bld,cellR,cellC,slotIdx);
+        invalidateBuildingCache();playSound('buy');haptic(15);
+      }
+    };
+    picker.appendChild(row);
+  });
+  popup.appendChild(picker);
 }
 function hideUpgradePopup(){
   document.getElementById('upgrade-popup').classList.remove('show');
@@ -3540,9 +4439,18 @@ function render(ts){
   updateCamera();
   ctx.clearRect(0,0,canvasW,canvasH);
   const gs=getGridSize();
+  // v15: Time-of-day overlay + parallax
+  updateTimeOfDay(dt);
+  drawParallaxClouds(ctx);
   // === WORLD SPACE (camera transform) ===
   applyCamera(ctx);
+  // v15: Building shadows (before city)
+  drawBuildingShadows(ctx,gs);
   drawCity(gs);
+  // v15: Cell decorations
+  drawCellDecorations(ctx,gs);
+  // v15: Subway lines
+  drawSubwayLines(ctx,gs);
   // Vehicle system
   syncVehicleSprites(gs);
   updateVehicles(dt,gs);
@@ -3565,6 +4473,9 @@ function render(ts){
   // Tax inspector
   updateTaxInspector(dt,gs);
   drawTaxInspector(ctx);
+  // v15: Citizen dots
+  updateCitizenDots(dt,gs);
+  drawCitizenDots(ctx);
   // Income $ particles (world space)
   updateIncomeParticles(dt);
   drawIncomeParticles(ctx);
@@ -3576,11 +4487,21 @@ function render(ts){
   drawFloatTexts(dt);
   resetCamera(ctx);
   // === SCREEN SPACE (HUD, overlays) ===
+  // v15: Ambient particles + gem rain (screen space)
+  updateAmbientParticles(dt);
+  drawAmbientParticles(ctx);
+  updateGemRain(dt);
+  drawGemRain(ctx);
   // Random events
   updateRandomEvents(dt);
   // Spin wheel overlay
   updateWheel();
   drawWheel(ctx);
+  // v15: Active powerup updates
+  updateActivePowerups();
+  updateActivePowerupBadges();
+  // v15: Subway build progress
+  updateSubwayBuilds();
   requestAnimationFrame(render);
 }
 
@@ -3616,7 +4537,17 @@ function handleClick(e){
   }
   state.lastClickTime=now;
   updateStaminaBar();
+  // v15: Diamond Hands powerup (id 13): 5x click, no decay
+  // v15: Efficiency Expert powerup (id 9): no decay
+  if(hasActivePowerup(13)){
+    state.clickDecayFactor=1.0; // no decay
+  }
+  if(hasActivePowerup(9)){
+    state.clickDecayFactor=1.0; // no decay
+  }
   let value=getClickValue()*state.clickDecayFactor;
+  // Diamond Hands: 5x click value
+  if(hasActivePowerup(13))value*=5;
   // Critical Strike check
   const critChance=getPerkEffect('critChance');
   let isCrit=false;
@@ -3634,12 +4565,18 @@ function handleClick(e){
   if((state.unlockedPerks['midasTouch']||0)>=1&&state.midasCounter>=10){
     state.midasCounter=0;
     value*=10;
-    // 5s income burst
     const burstIncome=getIncome()*5;
     state.cash+=burstIncome;state.totalCash+=burstIncome;
     floatTexts.push({x:wx,y:wy-30,text:'MIDAS! +'+fmt(burstIncome),color:'#fbbf24',size:20,life:1.5});
   }
   state.cash+=value; state.totalCash+=value; state.totalClicks++; state.clicksThisSecond++;
+  // v15: Midas Storm (id 14): 1% chance per click to earn gems
+  if(hasActivePowerup(14)&&Math.random()<0.01){
+    addGems(1);
+    floatTexts.push({x:wx,y:wy-20,text:'+1 GEM',color:'#a78bfa',size:16,life:1.2});
+  }
+  // v15: Check gem rain taps
+  if(state.gemRainDrops&&state.gemRainDrops.length>0)checkGemRainTap(sx,sy);
   // Float text color based on efficiency + crit
   const effPct=Math.round(state.clickDecayFactor*100);
   let ftColor=value>100?'#f0c040':'#34d399';
@@ -3649,8 +4586,10 @@ function handleClick(e){
   floatTexts.push({x:wx,y:wy,text:'+'+fmt(value)+(ftExtra),color:ftColor,size:Math.min(14+Math.log10(value+1)*4,28)+(isCrit?4:0),life:1});
   spawnParticles(wx,wy,3+Math.min(Math.floor(value/100),10)+(isCrit?5:0),isCrit?'#fbbf24':'#f0c040');
   playSound('click'); haptic(10);
-  // XP from click
-  addXP(1+Math.max(0,Math.floor(Math.log10(value+1)*2)));
+  // XP from click (with XP Surge: 3x)
+  let clickXP=1+Math.max(0,Math.floor(Math.log10(value+1)*2));
+  if(hasActivePowerup(7))clickXP*=3;
+  addXP(clickXP);
   // Double Dip: bonus XP from passive income
   const ddPct=getPerkEffect('clickXPBonus');
   if(ddPct>0)addXP(Math.floor(getIncome()*ddPct));
@@ -3679,12 +4618,61 @@ function detectBuildingTap(wx,wy){
   return true;
 }
 // Touch support
-function handleTouch(e){
+// Unified gesture handler: single-tap → click, two-finger → pinch/pan
+const gestureState={startTouches:null,startTime:0,isPinch:false,isPan:false,moved:false,pinchDist:0,lastMid:{x:0,y:0},camStartX:0,camStartY:0};
+function handleTouchStart(e){
   e.preventDefault();
-  for(let i=0;i<e.changedTouches.length;i++){
-    const t=e.changedTouches[i];
-    handleClick({clientX:t.clientX,clientY:t.clientY});
+  const now=Date.now();
+  if(e.touches.length>=2){
+    gestureState.isPinch=true;gestureState.isPan=false;gestureState.moved=true;
+    const dx=e.touches[0].clientX-e.touches[1].clientX,dy=e.touches[0].clientY-e.touches[1].clientY;
+    gestureState.pinchDist=Math.sqrt(dx*dx+dy*dy);
+    gestureState.lastMid={x:(e.touches[0].clientX+e.touches[1].clientX)/2,y:(e.touches[0].clientY+e.touches[1].clientY)/2};
+    gestureState.camStartX=state.camera.x;gestureState.camStartY=state.camera.y;
+  }else{
+    gestureState.startTouches=[{x:e.touches[0].clientX,y:e.touches[0].clientY}];
+    gestureState.startTime=now;gestureState.isPinch=false;gestureState.isPan=false;gestureState.moved=false;
   }
+}
+function handleTouchMove(e){
+  if(gestureState.isPinch&&e.touches.length>=2){
+    e.preventDefault();
+    const dx=e.touches[0].clientX-e.touches[1].clientX,dy=e.touches[0].clientY-e.touches[1].clientY;
+    const newDist=Math.sqrt(dx*dx+dy*dy);
+    const scale=newDist/gestureState.pinchDist;
+    const midX=(e.touches[0].clientX+e.touches[1].clientX)/2;
+    const midY=(e.touches[0].clientY+e.touches[1].clientY)/2;
+    const delta=(scale-1)*0.5;
+    zoomAtPoint(delta,midX,midY);
+    // Pan with mid-point shift
+    const panDx=midX-gestureState.lastMid.x,panDy=midY-gestureState.lastMid.y;
+    state.camera.x-=panDx/state.camera.zoom;state.camera.y-=panDy/state.camera.zoom;
+    gestureState.pinchDist=newDist;gestureState.lastMid={x:midX,y:midY};
+  }else if(e.touches.length===1&&gestureState.startTouches){
+    const dx=e.touches[0].clientX-gestureState.startTouches[0].x;
+    const dy=e.touches[0].clientY-gestureState.startTouches[0].y;
+    if(Math.abs(dx)>10||Math.abs(dy)>10){
+      if(!gestureState.isPan){gestureState.isPan=true;gestureState.camStartX=state.camera.x;gestureState.camStartY=state.camera.y;}
+      gestureState.moved=true;
+    }
+    if(gestureState.isPan){
+      state.camera.x=gestureState.camStartX-dx/state.camera.zoom;
+      state.camera.y=gestureState.camStartY-dy/state.camera.zoom;
+    }
+  }
+}
+function handleTouchEnd(e){
+  if(e.touches.length>=2)return; // still multi-touch
+  if(e.touches.length===0&&!gestureState.moved&&gestureState.startTouches){
+    const elapsed=Date.now()-gestureState.startTime;
+    if(elapsed<300){
+      const t=gestureState.startTouches[0];
+      handleClick({clientX:t.x,clientY:t.y});
+      if(IS_MOBILE&&navigator.vibrate)try{navigator.vibrate(10);}catch(e){}
+    }
+  }
+  if(e.touches.length<2)gestureState.isPinch=false;
+  if(e.touches.length<1){gestureState.isPan=false;gestureState.moved=false;gestureState.startTouches=null;}
 }
 
 function checkMilestones(){
@@ -3726,6 +4714,8 @@ function buyVehicle(idx){
   if(qty<=0)return;
   let cost=getBulkCost(v.baseCost,state.vehicles[idx],v.scaling,qty);
   if(state.nextDiscount){cost=Math.floor(cost*0.5);state.nextDiscount=false;notify("50% discount applied!");}
+  // v15: Bulk Deal powerup (id 6): 25% off all purchases
+  if(hasActivePowerup(6))cost=Math.floor(cost*0.75);
   // Bulk Buyer perk: 5%/lvl discount on 10+ purchases
   if(qty>=10){const bd=getPerkEffect('bulkDiscount');if(bd>0)cost=Math.floor(cost*(1-bd));}
   if(state.cash<cost)return;
@@ -3757,6 +4747,8 @@ function buyProperty(idx){
   if(qty<=0)return;
   let cost=getBulkCost(p.baseCost,state.properties[idx],p.scaling,qty);
   if(state.nextDiscount){cost=Math.floor(cost*0.5);state.nextDiscount=false;notify("50% discount applied!");}
+  // v15: Bulk Deal powerup (id 6): 25% off all purchases
+  if(hasActivePowerup(6))cost=Math.floor(cost*0.75);
   // Bulk Buyer perk: 5%/lvl discount on 10+ purchases
   if(qty>=10){const bd=getPerkEffect('bulkDiscount');if(bd>0)cost=Math.floor(cost*(1-bd));}
   if(state.cash<cost)return;
@@ -3989,8 +4981,102 @@ function renderShop(){
       s.textContent="Total auto-clicks: "+acs+"/sec ("+fmt(getClickValue()*acs)+"/sec)";
       c.appendChild(s);
     }
+  }else if(currentShopTab==="gems"){
+    // Gem Shop: fake IAP packages + gem-to-gold conversion
+    const sh=document.createElement("div");sh.style.cssText="text-align:center;padding:12px";
+    sh.innerHTML=`<div style="font-size:20px;font-weight:800;color:var(--purple)">💎 Gem Shop</div>
+      <div style="font-size:14px;color:var(--gold);margin:4px 0">You have: ${fmtNum(state.gems||0)} Gems</div>`;
+    c.appendChild(sh);
+    // Gem packages (fake IAP)
+    const pkgGrid=document.createElement("div");pkgGrid.className="gem-shop-grid";
+    GEM_PACKAGES.forEach((pkg,i)=>{
+      const card=document.createElement("div");card.className="gem-shop-card";
+      const bonusTag=pkg.bonus>0?`<div style="color:var(--green);font-size:11px;font-weight:700">+${pkg.bonus}% BONUS</div>`:'';
+      card.innerHTML=`<div style="font-size:28px">💎</div><div style="font-weight:800;font-size:16px;color:var(--purple)">${fmtNum(pkg.gems)}</div><div style="font-size:12px;color:var(--text-secondary)">${pkg.name}</div>${bonusTag}<div style="font-size:14px;font-weight:700;color:var(--gold);margin-top:6px">${pkg.price}</div>`;
+      card.onclick=()=>{buyGemPackage(i);renderShop();};
+      pkgGrid.appendChild(card);
+    });
+    c.appendChild(pkgGrid);
+    // Gem-to-Gold conversion
+    const convDiv=document.createElement("div");convDiv.style.cssText="padding:16px 8px;border-top:1px solid var(--border);margin-top:12px";
+    const rate=gemToGoldRate();
+    convDiv.innerHTML=`<div style="font-size:13px;font-weight:700;color:var(--text-secondary);margin-bottom:8px">GEM → GOLD EXCHANGE</div>
+      <div style="font-size:11px;color:var(--text-muted);margin-bottom:10px">1 Gem = ${fmt(rate)} Gold (1 minute of income)</div>`;
+    [1,5,10,50].forEach(amt=>{
+      const btn=document.createElement("button");
+      const can=(state.gems||0)>=amt;
+      btn.style.cssText="display:inline-block;margin:4px;padding:8px 16px;border:none;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;background:"+(can?"linear-gradient(135deg,var(--purple),#7c3aed)":"rgba(255,255,255,.05)")+";color:"+(can?"#fff":"var(--text-muted)");
+      btn.textContent=amt+" 💎 → "+fmt(rate*amt);
+      if(can)btn.onclick=()=>{convertGemsToGold(amt);renderShop();};
+      convDiv.appendChild(btn);
+    });
+    c.appendChild(convDiv);
+  }else if(currentShopTab==="subway"){
+    // Subway system
+    const sh=document.createElement("div");sh.style.cssText="text-align:center;padding:12px";
+    const builtCount=(state.subwayLines||[]).filter(l=>l.buildProgress>=1).length;
+    sh.innerHTML=`<div style="font-size:20px;font-weight:800;color:var(--blue)">🚇 Subway System</div>
+      <div style="font-size:13px;color:var(--text-secondary);margin:4px 0">${builtCount} / ${state.maxSubwayLines} lines built</div>
+      <div style="font-size:11px;color:var(--text-muted)">Connect buildings for +10% income synergy each!</div>
+      <div style="font-size:12px;color:var(--purple);margin-top:4px">💎 ${fmtNum(state.gems||0)} Gems available</div>`;
+    c.appendChild(sh);
+    // Existing lines
+    if(state.subwayLines&&state.subwayLines.length>0){
+      const lineColors=['#ef4444','#3b82f6','#22c55e','#f59e0b','#a78bfa'];
+      state.subwayLines.forEach((line,i)=>{
+        const d=document.createElement("div");d.className="subway-line-item";
+        const prog=line.buildProgress>=1?'Active':'Building... '+Math.round(line.buildProgress*100)+'%';
+        d.innerHTML=`<div style="width:12px;height:12px;border-radius:50%;background:${lineColors[i%5]};flex-shrink:0"></div>
+          <div style="flex:1"><div style="font-weight:700;font-size:13px">Line ${i+1}: (${line.cellA.r},${line.cellA.c}) ↔ (${line.cellB.r},${line.cellB.c})</div>
+          <div style="font-size:11px;color:${line.buildProgress>=1?'var(--green)':'var(--gold)'}">${prog}</div></div>`;
+        c.appendChild(d);
+      });
+    }
+    // Build new line (if under max)
+    if(builtCount<state.maxSubwayLines){
+      const buildDiv=document.createElement("div");buildDiv.style.cssText="padding:12px;margin-top:8px";
+      buildDiv.innerHTML=`<div style="font-size:13px;font-weight:700;color:var(--text-secondary);margin-bottom:8px">BUILD NEW LINE</div>
+        <div style="font-size:11px;color:var(--text-muted);margin-bottom:8px">Select two building cells to connect. Cost: 20-100 gems based on distance.</div>`;
+      // Simple grid selector
+      const gs=getGridSize();
+      const gridDiv=document.createElement("div");gridDiv.style.cssText="display:grid;grid-template-columns:repeat("+gs+",1fr);gap:2px;max-width:240px;margin:0 auto";
+      for(let r=0;r<gs;r++){
+        for(let col=0;col<gs;col++){
+          const btn=document.createElement("div");
+          const hasBuilding=state.cityGrid&&state.cityGrid[r]&&state.cityGrid[r][col]&&state.cityGrid[r][col].length>0;
+          btn.style.cssText="width:100%;aspect-ratio:1;border-radius:4px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:8px;background:"+(hasBuilding?"rgba(52,211,153,.3)":"rgba(255,255,255,.05)");
+          if(hasBuilding)btn.textContent='🏢';
+          btn.dataset.r=r;btn.dataset.c=col;
+          btn.onclick=()=>handleSubwaySelect(parseInt(btn.dataset.r),parseInt(btn.dataset.c));
+          gridDiv.appendChild(btn);
+        }
+      }
+      buildDiv.appendChild(gridDiv);
+      // Selection state
+      if(!window._subwaySelA)window._subwaySelA=null;
+      const selInfo=document.createElement("div");selInfo.id="subway-sel-info";selInfo.style.cssText="text-align:center;padding:8px;font-size:12px;color:var(--text-muted)";
+      selInfo.textContent=window._subwaySelA?"Selected: ("+window._subwaySelA.r+","+window._subwaySelA.c+") — tap another building":"Tap a building to start";
+      buildDiv.appendChild(selInfo);
+      c.appendChild(buildDiv);
+    }
   }else if(currentShopTab==="avatar"){
     renderAvatarConfigurator(c);
+  }
+}
+function handleSubwaySelect(r,c2){
+  if(!state.cityGrid||!state.cityGrid[r]||!state.cityGrid[r][c2]||state.cityGrid[r][c2].length===0){notify("Select a cell with buildings!");return;}
+  if(!window._subwaySelA){
+    window._subwaySelA={r,c:c2};notify("First station selected! Tap another building.");
+  }else{
+    const a=window._subwaySelA,b={r,c:c2};
+    if(a.r===b.r&&a.c===b.c){window._subwaySelA=null;notify("Cancelled.");renderShop();return;}
+    const cost=getSubwayCost(a,b);
+    if((state.gems||0)<cost){notify("Need "+cost+" gems! You have "+(state.gems||0));window._subwaySelA=null;renderShop();return;}
+    if(!spendGems(cost)){window._subwaySelA=null;renderShop();return;}
+    startSubwayBuild(a,b);
+    window._subwaySelA=null;
+    notify("Subway line under construction! -"+cost+" gems");
+    renderShop();
   }
 }
 let avatarConfigTab="hats";
@@ -4256,6 +5342,9 @@ function checkAchievements(){
       else if(ach.reward==="incomeBonus")state.achievementIncomeBonus+=ach.amount;
       else if(ach.reward==="multiplierBonus")state.achievementMultiplierBonus+=ach.amount;
       else if(ach.reward==="prestigeBonus")state.prestigeMultiplier+=ach.amount;
+      // v15: Gems from achievement unlock (10 per tier)
+      const achTier=ach.tier||1;
+      addGems(10*achTier);
       addXP(500);
       playSound('achieve');haptic(25);
       notifyAchievement(ach.name,ach.desc);
@@ -4292,6 +5381,13 @@ function renderStatistics(c){
     ["Click Value",fmt(getClickValue())],
     ["Passive Income",fmt(getIncome())+"/s"],
     ["Multiplier",getEffectiveMultiplier().toFixed(1)+"x"],
+    ["Gems",fmtNum(state.gems||0)],
+    ["Total Gems Earned",fmtNum(state.totalGemsEarned||0)],
+    ["Happiness",Math.round(state.happiness||50)+"%"],
+    ["Happiness Multiplier",getHappinessMultiplier().toFixed(2)+"x"],
+    ["Population",fmtNum(getPopulation())],
+    ["Population Bonus","+"+(getPopulationIncomeBonus()*100).toFixed(0)+"%"],
+    ["Subway Lines",(state.subwayLines||[]).filter(l=>l.buildProgress>=1).length+"/"+state.maxSubwayLines],
     ["Vehicles Owned",state.vehicles.reduce((a,b)=>a+b,0).toString()],
     ["Properties Owned",state.properties.reduce((a,b)=>a+b,0).toString()],
     ["Licenses",state.licenses.filter(Boolean).length+"/"+LICENSES.length],
@@ -4330,6 +5426,9 @@ function doPrestige(){
   const prestigeGainBonus=1+getPerkEffect('prestigeGain');
   const actualGain=Math.floor(gain*prestigeGainBonus);
   state.prestigePoints+=actualGain; state.prestigeCount++;
+  // v15: Gems from prestige (25 * prestigeLevel)
+  const prestigeGems=25*state.prestigeCount;
+  addGems(prestigeGems);
   // XP from prestige
   addXP(state.xpLevel*1000);
   // Phoenix Rebirth: retain 10% cash + vehicles
@@ -4412,22 +5511,81 @@ function activatePowerup(idx){
 function renderBoosts(){
   const c=document.getElementById("boost-items");
   c.innerHTML="";
-  POWERUPS.forEach((pu,i)=>{
-    const ps=state.powerups[i],now=Date.now()/1000,cost=getPowerupCost(i);
-    const can=state.cash>=cost,onCd=now<ps.cooldownUntil&&!ps.active,active=ps.active;
-    const d=document.createElement("div");
-    d.className="boost-card"+(active?" active-boost":onCd?" cooldown":can?"":" cant-afford");
-    let detail=fmt(cost);
-    if(active)detail="Active "+Math.ceil(ps.activeUntil-now)+"s";
-    else if(onCd)detail="Cooldown "+Math.ceil(ps.cooldownUntil-now)+"s";
-    d.innerHTML=`<div class="boost-icon" style="background:${BOOST_COLORS[i]}">${ICONS[BOOST_ICONS[i]]}</div><div class="boost-name">${pu.name}</div><div class="boost-desc">${pu.desc}</div><div class="boost-cost">${detail}</div>`;
-    if(active){
-      const pct=((ps.activeUntil-now)/pu.duration)*100;
-      d.innerHTML+=`<div class="boost-timer"><div class="boost-timer-fill" style="width:${pct}%"></div></div>`;
-    }
-    if(can&&!active&&!onCd)d.onclick=()=>activatePowerup(i);
-    c.appendChild(d);
-  });
+  // Sub-tab buttons
+  const tabBar=document.getElementById('pu-subtabs');
+  if(tabBar){
+    tabBar.querySelectorAll('.pu-subtab').forEach(t=>{
+      t.classList.toggle('active-cash',t.dataset.putype===boostSubTab);
+      t.onclick=()=>{boostSubTab=t.dataset.putype;renderBoosts();};
+    });
+  }
+  if(boostSubTab==='cash'){
+    // Original 5 powerups
+    POWERUPS.forEach((pu,i)=>{
+      const ps=state.powerups[i],now=Date.now()/1000,cost=getPowerupCost(i);
+      const can=state.cash>=cost,onCd=now<ps.cooldownUntil&&!ps.active,active=ps.active;
+      const d=document.createElement("div");
+      d.className="boost-card"+(active?" active-boost":onCd?" cooldown":can?"":" cant-afford");
+      let detail=fmt(cost);
+      if(active)detail="Active "+Math.ceil(ps.activeUntil-now)+"s";
+      else if(onCd)detail="Cooldown "+Math.ceil(ps.cooldownUntil-now)+"s";
+      d.innerHTML=`<div class="boost-icon" style="background:${BOOST_COLORS[i]}">${ICONS[BOOST_ICONS[i]]}</div><div class="boost-name">${pu.name}</div><div class="boost-desc">${pu.desc}</div><div class="boost-cost">${detail}</div>`;
+      if(active){
+        const pct=((ps.activeUntil-now)/pu.duration)*100;
+        d.innerHTML+=`<div class="boost-timer"><div class="boost-timer-fill" style="width:${pct}%"></div></div>`;
+      }
+      if(can&&!active&&!onCd)d.onclick=()=>activatePowerup(i);
+      c.appendChild(d);
+    });
+    // Extended cash powerups (ids 5-12)
+    const cashColors=['#f59e0b','#10b981','#8b5cf6','#f0c040','#06b6d4','#22c55e','#3b82f6','#ec4899'];
+    POWERUPS_CASH_EXT.forEach((pu,idx)=>{
+      const income=getIncome();
+      const cost=Math.floor(income*(pu.costMult||30));
+      const can=state.cash>=cost;
+      const active=hasActivePowerup(pu.id);
+      const d=document.createElement("div");
+      d.className="boost-card"+(active?" active-boost":can?"":" cant-afford");
+      let detail=active?'Active':'$'+fmt(cost);
+      d.innerHTML=`<div class="boost-icon" style="background:${cashColors[idx%8]}">${pu.icon||'⚡'}</div><div class="boost-name">${pu.name}</div><div class="boost-desc">${pu.desc}</div><div class="boost-cost">${detail}</div>`;
+      if(can&&!active)d.onclick=()=>{
+        if(state.cash<cost)return;
+        state.cash-=cost;
+        // Directly push to active powerups (payment already handled above)
+        if(state.activePowerups.length>=3){notify('Max 3 active!');state.cash+=cost;return;}
+        state.activePowerups.push({id:pu.id,effect:pu.effect,value:pu.value,endTime:Date.now()+pu.duration*1000,name:pu.name});
+        playSound('buy');haptic(15);notify(pu.name+' activated!');updateHUD();renderBoosts();
+      };
+      c.appendChild(d);
+    });
+  }else{
+    // Gem powerups (ids 13-21)
+    const gemColors=['#fbbf24','#a78bfa','#60a5fa','#f472b6','#34d399','#818cf8','#06b6d4','#7c3aed','#f0c040'];
+    POWERUPS_GEM.forEach((pu,idx)=>{
+      const cost=pu.gemCost||15;
+      const can=(state.gems||0)>=cost;
+      const active=hasActivePowerup(pu.id);
+      const d=document.createElement("div");
+      d.className="boost-card"+(active?" active-boost":can?"":" cant-afford");
+      let detail=active?'Active':cost+' Gems';
+      d.innerHTML=`<div class="boost-icon" style="background:${gemColors[idx%9]}">💎</div><div class="boost-name">${pu.name}</div><div class="boost-desc">${pu.desc}</div><div class="boost-cost" style="color:var(--purple)">${detail}</div>`;
+      if(can&&!active)d.onclick=()=>{
+        if(!spendGems(cost))return;
+        if(pu.instant){
+          // Handle instant effects
+          if(pu.id===15){const bonus=getIncome()*600;state.cash+=bonus;state.totalCash+=bonus;notify('Time Warp! +'+fmt(bonus));}
+          else if(pu.id===20){const pGain=Math.floor(getPrestigeGain()*0.5);if(pGain>0){state.prestigePoints+=pGain;state.prestigeMultiplier=1+state.prestigePoints*0.1;notify('Prestige Preview! +'+pGain+' pts');}}
+        }else{
+          if(state.activePowerups.length>=3){notify('Max 3 active!');addGems(cost);return;}
+          state.activePowerups.push({id:pu.id,effect:pu.effect,value:pu.value,endTime:Date.now()+pu.duration*1000,name:pu.name});
+          // Special: Lucky Gem Rain spawns gem drops
+          if(pu.id===21){for(let i=0;i<15;i++)state.gemRainDrops.push({x:Math.random()*canvasW,y:-20-Math.random()*200,vy:80+Math.random()*60,size:12+Math.random()*8,collected:false,life:0});}
+        }
+        playSound('buy');haptic(15);notify(pu.name+' activated!');updateHUD();renderBoosts();
+      };
+      c.appendChild(d);
+    });
+  }
 }
 
 // ═══════════════════════════════════════════════════════════════
@@ -4436,6 +5594,15 @@ function renderBoosts(){
 function spawnGoldenBriefcase(){
   if(state.goldenActive)return;
   state.goldenActive=true;
+  // v15: Mega Magnet (id 16): auto-collect briefcases
+  if(hasActivePowerup(16)){
+    const bonus=Math.max(getClickValue()*50,getIncome()*30,100);
+    state.cash+=bonus;state.totalCash+=bonus;state.goldenCaught++;
+    addXP(250);
+    if(Math.random()<0.2){const gd=1+Math.floor(Math.random()*5);addGems(gd);}
+    notify("Auto-collected Briefcase! +"+fmt(bonus));
+    state.goldenActive=false;return;
+  }
   const bc=document.createElement("div");
   bc.className="golden-briefcase";
   bc.innerHTML=ICONS.briefcase;
@@ -4447,7 +5614,14 @@ function spawnGoldenBriefcase(){
     const bonus=Math.max(getClickValue()*50,getIncome()*30,100);
     state.cash+=bonus;state.totalCash+=bonus;state.goldenCaught++;
     addXP(250);
-    notify("Golden Briefcase! +"+fmt(bonus));
+    // v15: 20% chance to drop 1-5 gems
+    let gemMsg='';
+    if(Math.random()<0.2){
+      const gemDrop=1+Math.floor(Math.random()*5);
+      addGems(gemDrop);
+      gemMsg=' +'+gemDrop+' Gems!';
+    }
+    notify("Golden Briefcase! +"+fmt(bonus)+gemMsg);
     spawnParticles(e.clientX,e.clientY,20,"#f0c040");
     bc.remove();state.goldenActive=false;
     checkAchievements();updateHUD();
@@ -4457,6 +5631,8 @@ function spawnGoldenBriefcase(){
 function scheduleGoldenBriefcase(){
   let delay=60000+Math.random()*120000;
   if(state.randomEvent.active&&state.randomEvent.effect==='goldenHour')delay=delay/3;
+  // v15: Golden Hour powerup (id 8): 5x faster briefcase spawns
+  if(hasActivePowerup(8))delay=delay/5;
   // Lucky Tycoon perk: 10%/lvl faster spawns
   delay*=Math.max(0.3,1-getPerkEffect('goldenSpeed'));
   goldenTimer=setTimeout(()=>{spawnGoldenBriefcase();scheduleGoldenBriefcase();},delay);
@@ -4472,6 +5648,9 @@ function updateHUD(){
   const totalIncome=getIncome()+getClickValue()*acs;
   document.getElementById("s-income").textContent=fmt(totalIncome)+"/s";
   document.getElementById("hud-mult").textContent=getEffectiveMultiplier().toFixed(1)+"x";
+  // v15: Gems display
+  const gemsEl=document.getElementById("s-gems");
+  if(gemsEl)gemsEl.textContent=fmtNum(state.gems||0);
   const gain=getPrestigeGain();
   const chip=document.getElementById("prestige-chip");
   if(gain>0){chip.style.display="inline-block";chip.textContent="Prestige +"+gain;}
@@ -4481,6 +5660,21 @@ function updateHUD(){
   updateXPBar();
   updatePerkBadge();
   updateStaminaBar();
+  // v15: Happiness UI
+  updateHappinessUI();
+  // v15: Desktop sidebar quick stats
+  if(IS_DESKTOP){
+    const dsCash=document.getElementById('ds-cash');
+    const dsIncome=document.getElementById('ds-income');
+    const dsGems=document.getElementById('ds-gems');
+    const dsPop=document.getElementById('ds-pop');
+    const dsHappy=document.getElementById('ds-happy');
+    if(dsCash)dsCash.textContent=fmt(state.cash);
+    if(dsIncome)dsIncome.textContent=fmt(totalIncome)+'/s';
+    if(dsGems)dsGems.textContent=fmtNum(state.gems||0);
+    if(dsPop)dsPop.textContent=fmtNum(getPopulation());
+    if(dsHappy)dsHappy.textContent=Math.round(state.happiness||50)+'%';
+  }
 }
 
 // ═══════════════════════════════════════════════════════════════
@@ -4755,8 +5949,7 @@ function claimDailyReward(){
     state.cash+=amount;state.totalCash+=amount;
     notify("Daily bonus: "+fmt(amount));
   }else if(reward.type==="boost"){
-    // Activate a free power-up
-    const boostIdx=state.dailyStreak===2?0:state.dailyStreak===4?1:2; // Coffee, Energy, Golden
+    const boostIdx=state.dailyStreak===2?0:state.dailyStreak===4?1:2;
     const pu=POWERUPS[boostIdx],ps=state.powerups[boostIdx];
     if(!ps.active){
       ps.active=true;ps.activeUntil=Date.now()/1000+pu.duration;ps.cooldownUntil=Date.now()/1000+pu.duration+pu.cooldown;
@@ -4772,6 +5965,11 @@ function claimDailyReward(){
     state.prestigeMultiplier=1+state.prestigePoints*0.1;
     notify("Daily bonus: +1 Prestige Point!");
   }
+  // v15: Daily gem reward from DAILY_GEM_REWARDS cycle
+  const gemDay=(state.dailyStreak-1)%DAILY_GEM_REWARDS.length;
+  const gemReward=DAILY_GEM_REWARDS[gemDay];
+  addGems(gemReward);
+  notify("+"+gemReward+" Gems (Day "+state.dailyStreak+" bonus)");
   state.lastDailyLogin=getDayNumber();
   state.dailyClaimedToday=true;
   playSound('daily');haptic(20);
@@ -4798,6 +5996,12 @@ function buyInfinitePerk(idx){
 // ═══════════════════════════════════════════════════════════════
 function economyTick(){
   if(document.hidden)return; // Don't tick when tab is hidden
+  // v15: Compound Interest powerup (id 12): income grows 1%/s
+  if(hasActivePowerup(12)){
+    state.compoundAccum=(state.compoundAccum||1.0)*1.01;
+  }else{
+    state.compoundAccum=1.0;
+  }
   const income=getIncome();
   state.cash+=income;state.totalCash+=income;
   // Income pulse visual + $ particles
@@ -4808,8 +6012,9 @@ function economyTick(){
     spawnIncomeParticles();
   }
 
-  // Auto-clicks from managers
-  const acs=getAutoClicksPerSec();
+  // Auto-clicks from managers (with Overtime powerup: 3x speed)
+  let acs=getAutoClicksPerSec();
+  if(hasActivePowerup(5))acs*=3; // Overtime
   if(acs>0){
     autoClickAccum+=acs;
     const wholeClicks=Math.floor(autoClickAccum);
@@ -4818,8 +6023,15 @@ function economyTick(){
     state.cash+=autoValue;state.totalCash+=autoValue;state.totalClicks+=wholeClicks;
   }
 
-  // Passive XP per second
-  if(income>0)addXP(Math.max(1,Math.floor(income/1000)));
+  // Passive XP per second (with XP Surge powerup: 3x)
+  if(income>0){
+    let xpAmt=Math.max(1,Math.floor(income/1000));
+    if(hasActivePowerup(7))xpAmt*=3; // XP Surge
+    addXP(xpAmt);
+  }
+  // v15: Recalculate happiness
+  state.happiness=calculateHappiness();
+  updateHappinessUI();
   state.clicksThisSecond=0;
   checkAchievements();updateHUD();
   if(currentView==="boosts")renderBoosts();
@@ -4873,7 +6085,14 @@ function saveGame(){
       xp:state.xp, totalXP:state.totalXP, xpLevel:state.xpLevel,
       perkPoints:state.perkPoints, unlockedPerks:state.unlockedPerks,
       timeWarpLastUse:state.timeWarpLastUse||0,
-      version:14,
+      // v15: Gems
+      gems:state.gems||0, totalGemsEarned:state.totalGemsEarned||0, totalGemsSpent:state.totalGemsSpent||0,
+      dailyLoginDay:state.dailyLoginDay||0, lastLoginDate:state.lastLoginDate||null,
+      // v15: Happiness
+      happiness:state.happiness||50,
+      // v15: Subway
+      subwayLines:state.subwayLines||[], subwayBuildQueue:state.subwayBuildQueue||null,
+      version:15,
       savedAt:Date.now(),
     };
     localStorage.setItem("maintagrunner_save",JSON.stringify(data));
@@ -4944,6 +6163,33 @@ function loadGame(){
     while(state.properties.length<PROPERTIES.length)state.properties.push(0);
     while(state.licenses.length<LICENSES.length)state.licenses.push(false);
     while(state.managers.length<MANAGERS.length)state.managers.push(false);
+    // v15 migration
+    if(!d.version||d.version<15){
+      state.gems=d.gems||0;state.totalGemsEarned=d.totalGemsEarned||0;state.totalGemsSpent=d.totalGemsSpent||0;
+      state.happiness=50;state.subwayLines=[];state.subwayBuildQueue=null;
+      state.dailyLoginDay=0;state.lastLoginDate=null;
+      // Extend grid cells with addon/decoration slots
+      if(state.cityGrid){
+        const gsMig=state.cityGrid.length;
+        for(let r=0;r<gsMig;r++){
+          if(!state.cityGrid[r])continue;
+          for(let c2=0;c2<state.cityGrid[r].length;c2++){
+            if(!state.cityGrid[r][c2])continue;
+            for(const bld of state.cityGrid[r][c2]){
+              if(!bld.buildingAddons)bld.buildingAddons=[];
+              if(bld.decoration===undefined)bld.decoration=null;
+            }
+            // Cell-level decoration
+            if(!state.cityGrid[r][c2]._decoration)state.cityGrid[r][c2]._decoration=null;
+          }
+        }
+      }
+    }else{
+      state.gems=d.gems||0;state.totalGemsEarned=d.totalGemsEarned||0;state.totalGemsSpent=d.totalGemsSpent||0;
+      state.happiness=d.happiness||50;
+      state.subwayLines=d.subwayLines||[];state.subwayBuildQueue=d.subwayBuildQueue||null;
+      state.dailyLoginDay=d.dailyLoginDay||0;state.lastLoginDate=d.lastLoginDate||null;
+    }
     recalcMultiplier();
     // Apply prestige perk multipliers
     PRESTIGE_PERKS.forEach(p=>{
@@ -5032,7 +6278,10 @@ function init(){
   document.addEventListener('touchstart',unlockAudio,{passive:true});
   document.addEventListener('click',unlockAudio);
   clickZone.addEventListener("click",handleClick);
-  clickZone.addEventListener("touchstart",handleTouch,{passive:false});
+  // v15: Unified touch gesture handler (replaces old handleTouch)
+  clickZone.addEventListener("touchstart",handleTouchStart,{passive:false});
+  clickZone.addEventListener("touchmove",handleTouchMove,{passive:false});
+  clickZone.addEventListener("touchend",handleTouchEnd,{passive:false});
 
   // Nav
   document.querySelectorAll(".nav-btn").forEach(btn=>{
@@ -5159,6 +6408,11 @@ function init(){
   loadSettings();
   updateRankDisplay();
   updateHUD();
+  // v15: Initialize new systems
+  if(IS_DESKTOP)setupKeyboardShortcuts();
+  initClouds();
+  state.happiness=calculateHappiness();
+  updateHappinessUI();
   requestAnimationFrame(render);
 
   // Splash screen — dismiss on first tap, then start the game
