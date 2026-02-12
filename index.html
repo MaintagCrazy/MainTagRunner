@@ -364,14 +364,15 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
 .gem-icon{width:14px;height:14px;fill:#a78bfa;flex-shrink:0}
 
 /* ─── v15: Happiness meter ─── */
-#happiness-bar{position:fixed;top:calc(env(safe-area-inset-top,8px) + 48px);right:16px;z-index:19;display:flex;align-items:center;gap:4px;pointer-events:none;font-size:10px;font-weight:700}
+#happiness-bar{position:fixed;top:calc(env(safe-area-inset-top,8px) + 48px);right:16px;z-index:19;display:none;align-items:center;gap:4px;pointer-events:none;font-size:10px;font-weight:700}
 #happiness-icon{font-size:16px}
 #happiness-track{width:60px;height:4px;background:rgba(255,255,255,.08);border-radius:2px;overflow:hidden}
 #happiness-fill{height:100%;border-radius:2px;transition:width .3s,background .3s}
 #happiness-val{color:var(--text-muted);min-width:24px;text-align:right}
 
 /* ─── v15: Active powerup badges ─── */
-#active-powerups{position:fixed;top:calc(env(safe-area-inset-top,8px) + 42px);left:16px;z-index:19;display:flex;gap:4px;flex-wrap:wrap;max-width:200px;pointer-events:none}
+#active-powerups{position:fixed;top:calc(env(safe-area-inset-top,8px) + 58px);left:16px;z-index:19;display:flex;gap:4px;flex-wrap:wrap;max-width:200px;pointer-events:none}
+#active-powerups:empty{display:none}
 .pu-badge{display:flex;align-items:center;gap:3px;padding:2px 6px;border-radius:10px;font-size:9px;font-weight:700;color:#fff;backdrop-filter:blur(8px);background:rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.15)}
 .pu-badge-timer{opacity:.7;font-variant-numeric:tabular-nums}
 
@@ -1692,11 +1693,11 @@ function updateCitizenDots(dt){
   // Spawn new dots
   while(state.citizenDots.length<desired){
     const gs=getGridSize();
-    const pad=getGridPad(),cellW=(canvasW-pad*2)/gs;
+    const pad=getGridPad(),padY=getGridYOffset(),cellW=(canvasW-pad*2)/gs;
     const r=Math.floor(Math.random()*(gs+1)),c=Math.floor(Math.random()*(gs+1));
     state.citizenDots.push({
-      x:pad+c*cellW,y:pad+r*cellW,
-      tx:pad+Math.floor(Math.random()*(gs+1))*cellW,ty:pad+Math.floor(Math.random()*(gs+1))*cellW,
+      x:pad+c*cellW,y:padY+r*cellW,
+      tx:pad+Math.floor(Math.random()*(gs+1))*cellW,ty:padY+Math.floor(Math.random()*(gs+1))*cellW,
       speed:15+Math.random()*20,
       color:CITIZEN_COLORS[Math.floor(Math.random()*CITIZEN_COLORS.length)],
       pauseTimer:0
@@ -1711,9 +1712,9 @@ function updateCitizenDots(dt){
     if(dist<3){
       // Pick new target along grid lines
       const gs=getGridSize();
-      const pad=getGridPad(),cellW=(canvasW-pad*2)/gs;
+      const pad=getGridPad(),padY=getGridYOffset(),cellW=(canvasW-pad*2)/gs;
       dot.tx=pad+Math.floor(Math.random()*(gs+1))*cellW;
-      dot.ty=pad+Math.floor(Math.random()*(gs+1))*cellW;
+      dot.ty=padY+Math.floor(Math.random()*(gs+1))*cellW;
       dot.pauseTimer=0.5+Math.random()*2; // Pause at buildings
     }else{
       const step=dot.speed*dt;
@@ -1772,10 +1773,10 @@ function updateSubwayBuilds(){
   }
 }
 function drawSubwayLines(c,gs){
-  const pad=getGridPad(),cellW=(canvasW-pad*2)/gs;
+  const pad=getGridPad(),padY=getGridYOffset(),cellW=(canvasW-pad*2)/gs;
   for(const line of state.subwayLines){
-    const ax=pad+line.cellA.c*cellW+cellW/2,ay=pad+line.cellA.r*cellW+cellW/2;
-    const bx=pad+line.cellB.c*cellW+cellW/2,by=pad+line.cellB.r*cellW+cellW/2;
+    const ax=pad+line.cellA.c*cellW+cellW/2,ay=padY+line.cellA.r*cellW+cellW/2;
+    const bx=pad+line.cellB.c*cellW+cellW/2,by=padY+line.cellB.r*cellW+cellW/2;
     const color=SUBWAY_COLORS[line.lineColor];
     c.save();
     c.globalAlpha=line.buildProgress<1?0.3:0.6;
@@ -1921,10 +1922,10 @@ function updateActivePowerupBadges(){
 // v15: GRAPHICS ENHANCEMENTS
 // ═══════════════════════════════════════════════════════════════
 const TOD_PHASES = [
-  {name:'Dawn',overlay:'rgba(255,140,50,0.05)',duration:75},
+  {name:'Dawn',overlay:'rgba(255,140,50,0.03)',duration:75},
   {name:'Day',overlay:'rgba(0,0,0,0)',duration:150},
-  {name:'Dusk',overlay:'rgba(180,80,200,0.06)',duration:75},
-  {name:'Night',overlay:'rgba(10,10,60,0.12)',duration:100},
+  {name:'Dusk',overlay:'rgba(180,80,200,0.03)',duration:75},
+  {name:'Night',overlay:'rgba(10,10,40,0.06)',duration:100},
 ];
 function updateTimeOfDay(dt){
   state.todTimer+=dt;
@@ -1940,13 +1941,15 @@ function updateTimeOfDay(dt){
 }
 function drawBuildingShadows(c,gs){
   if(!state.cityGrid)return;
-  const pad=getGridPad(),cellW=(canvasW-pad*2)/gs;
+  const totalBuildings=state.properties?state.properties.reduce((a,b)=>a+b,0):0;
+  if(totalBuildings===0)return;
+  const pad=getGridPad(),padY=getGridYOffset(),cellW=(canvasW-pad*2)/gs;
   c.save();c.globalAlpha=0.15;c.fillStyle='#000';
   for(let r=0;r<gs;r++){
     if(!state.cityGrid[r])continue;
     for(let col=0;col<gs;col++){
       if(!state.cityGrid[r][col]||state.cityGrid[r][col].length===0)continue;
-      const cx=pad+col*cellW,cy=pad+r*cellW;
+      const cx=pad+col*cellW,cy=padY+r*cellW;
       const maxTier=Math.max(...state.cityGrid[r][col].map(b=>b.tier));
       const shadowLen=2+maxTier*0.8;
       c.beginPath();
@@ -1962,7 +1965,9 @@ function drawBuildingShadows(c,gs){
 // Ambient particles (birds, dust motes)
 let ambientParticles=[];
 function updateAmbientParticles(dt){
-  // Spawn birds/planes
+  // Spawn birds/planes (very sparse — only when city has buildings)
+  const totalBuildings=state.properties?state.properties.reduce((a,b)=>a+b,0):0;
+  if(totalBuildings<3)return; // Don't show ambient particles on empty city
   if(ambientParticles.length<8&&Math.random()<0.02){
     ambientParticles.push({
       x:-20,y:30+Math.random()*80,
@@ -2013,7 +2018,7 @@ function drawParallaxClouds(c){
 // Draw decorations on cells
 function drawCellDecorations(c,gs){
   if(!state.cityGrid)return;
-  const pad=getGridPad(),cellW=(canvasW-pad*2)/gs;
+  const pad=getGridPad(),padY=getGridYOffset(),cellW=(canvasW-pad*2)/gs;
   for(let r=0;r<gs;r++){
     if(!state.cityGrid[r])continue;
     for(let col=0;col<gs;col++){
@@ -2022,7 +2027,7 @@ function drawCellDecorations(c,gs){
       if(decoIdx===undefined||decoIdx===null)continue;
       const deco=PREMIUM_DECORATIONS[decoIdx];
       if(!deco)continue;
-      const cx=pad+col*cellW+cellW/2,cy=pad+r*cellW+cellW/2;
+      const cx=pad+col*cellW+cellW/2,cy=padY+r*cellW+cellW/2;
       c.save();c.font=Math.max(16,cellW*0.4)+'px sans-serif';c.textAlign='center';c.textBaseline='middle';
       c.fillText(deco.icon,cx,cy);
       c.restore();
@@ -2410,8 +2415,8 @@ function resizeCanvas(){
   invalidateBuildingCache();
 }
 function getGridSize(){
-  // Grid size determined by purchased land cells
-  return getLandGridSize(state.landCells||1);
+  // Grid size determined by purchased land cells (min 2 for proper mogul pathing)
+  return Math.max(2,getLandGridSize(state.landCells||1));
 }
 function getMilestone(){
   const gs=getGridSize();
@@ -2419,11 +2424,16 @@ function getMilestone(){
   return MILESTONES[Math.max(0,idx)];
 }
 function getWaypoints(gs){
-  const pad=getGridPad(),cellW=(canvasW-pad*2)/gs,cellH=cellW,pts=[];
-  for(let i=0;i<gs;i++)pts.push({x:pad+i*cellW,y:pad});
-  for(let i=0;i<gs;i++)pts.push({x:pad+(gs-1)*cellW,y:pad+i*cellH});
-  for(let i=gs-1;i>=0;i--)pts.push({x:pad+i*cellW,y:pad+(gs-1)*cellH});
-  for(let i=gs-1;i>0;i--)pts.push({x:pad,y:pad+i*cellH});
+  const pad=getGridPad(),padY=getGridYOffset(),cellW=(canvasW-pad*2)/gs,cellH=cellW,pts=[];
+  // Walk around the full outer perimeter of the grid (on streets)
+  // Top edge (left→right, inclusive of corners)
+  for(let i=0;i<=gs;i++)pts.push({x:pad+i*cellW,y:padY});
+  // Right edge (top→bottom, skip top-right already added)
+  for(let i=1;i<=gs;i++)pts.push({x:pad+gs*cellW,y:padY+i*cellH});
+  // Bottom edge (right→left, skip bottom-right already added)
+  for(let i=gs-1;i>=0;i--)pts.push({x:pad+i*cellW,y:padY+gs*cellH});
+  // Left edge (bottom→top, skip both corners)
+  for(let i=gs-1;i>0;i--)pts.push({x:pad,y:padY+i*cellH});
   return pts;
 }
 // ╔══════════════════════════════════════════════╗
@@ -2431,6 +2441,18 @@ function getWaypoints(gs){
 // ╚══════════════════════════════════════════════╝
 // Grid padding - responsive to screen width
 function getGridPad(){return Math.max(15,Math.min(40,canvasW*0.04));}
+// Vertical offset to center grid in visible area (between HUD and nav)
+function getGridYOffset(){
+  const pad=getGridPad();
+  const gs=getGridSize();
+  const cellW=(canvasW-pad*2)/gs;
+  const gridH=gs*cellW;
+  const visTop=60; // below HUD + stamina bar
+  const visBot=canvasH-90; // above nav + XP bar
+  const visH=visBot-visTop;
+  if(gridH>=visH)return pad; // grid fills or exceeds available space
+  return visTop+Math.max(0,(visH-gridH)/2);
+}
 // Square cell size based on width (grid is always a square block)
 function getGridCellSize(gs){const pad=getGridPad();return(canvasW-pad*2)/gs;}
 // Fixed micro-grid: always use dense layout, buildings stay small tokens
@@ -2527,13 +2549,13 @@ function drawCellGround(c,cx,cy,cw,ch,buildingCount,row,col){
       const gy=cy+6+((hash*7+i*31)%Math.max(1,Math.floor(ch-12)));
       c.fillRect(gx,gy,1,3);c.fillRect(gx+2,gy+1,1,2);
     }
-    // Larger grass patches
+    // Larger grass patches (capped radius to avoid giant blobs)
     if(cw>60){
       for(let i=0;i<2;i++){
         const px=cx+15+((hash*19+i*67)%Math.max(1,Math.floor(cw-30)));
         const py=cy+15+((hash*23+i*43)%Math.max(1,Math.floor(ch-30)));
-        c.fillStyle='rgba(30,100,38,0.12)';
-        c.beginPath();c.arc(px,py,Math.max(3,cw*.04),0,Math.PI*2);c.fill();
+        c.fillStyle='rgba(30,100,38,0.10)';
+        c.beginPath();c.arc(px,py,Math.min(6,Math.max(3,cw*.04)),0,Math.PI*2);c.fill();
       }
     }
     return;
@@ -3674,8 +3696,8 @@ function buildManagerRoute(mgr){
     if(state.cityGrid[r][c].some(b=>mgr.cfg.targets.includes(b.type)))relevant.push({r,c});
   }}
   if(relevant.length===0)return;
-  const pad=getGridPad(),cellW=(canvasW-pad*2)/gs,cellH=cellW;
-  const curR=Math.floor((mgr.y-pad)/cellH),curC=Math.floor((mgr.x-pad)/cellW);
+  const pad=getGridPad(),padY=getGridYOffset(),cellW=(canvasW-pad*2)/gs,cellH=cellW;
+  const curR=Math.floor((mgr.y-padY)/cellH),curC=Math.floor((mgr.x-pad)/cellW);
   const remaining=[...relevant];const route=[];let cur={r:curR,c:curC};
   while(remaining.length>0){
     remaining.sort((a,b)=>(Math.abs(a.r-cur.r)+Math.abs(a.c-cur.c))-(Math.abs(b.r-cur.r)+Math.abs(b.c-cur.c)));
@@ -3685,12 +3707,12 @@ function buildManagerRoute(mgr){
 }
 function updateManagerNPCs(dt){
   const gs=getGridSize();
-  const pad=getGridPad(),cellW=(canvasW-pad*2)/gs,cellH=cellW;
+  const pad=getGridPad(),padY=getGridYOffset(),cellW=(canvasW-pad*2)/gs,cellH=cellW;
   // Sync with hired managers
   for(let i=0;i<MANAGERS.length&&i<MANAGER_NPC_CONFIG.length;i++){
     if(state.managers[i]&&!managerSprites.find(m=>m.id===i)){
       const cfg=MANAGER_NPC_CONFIG[i];
-      const ms={id:i,cfg,x:pad+Math.random()*gs*cellW,y:pad+Math.random()*gs*cellH,targetCell:null,collecting:false,collectTimer:0,routeQueue:[],facing:1,walkFrame:0};
+      const ms={id:i,cfg,x:pad+Math.random()*gs*cellW,y:padY+Math.random()*gs*cellH,targetCell:null,collecting:false,collectTimer:0,routeQueue:[],facing:1,walkFrame:0};
       buildManagerRoute(ms);
       managerSprites.push(ms);
     }
@@ -3708,7 +3730,7 @@ function updateManagerNPCs(dt){
     }
     if(!mgr.targetCell&&mgr.routeQueue.length>0)mgr.targetCell=mgr.routeQueue.shift();
     if(!mgr.targetCell){buildManagerRoute(mgr);continue;}
-    const tx=pad+mgr.targetCell.c*cellW+cellW/2,ty=pad+mgr.targetCell.r*cellH+cellH/2;
+    const tx=pad+mgr.targetCell.c*cellW+cellW/2,ty=padY+mgr.targetCell.r*cellH+cellH/2;
     const dx2=tx-mgr.x,dy2=ty-mgr.y,dist2=Math.sqrt(dx2*dx2+dy2*dy2);
     if(dist2<3){
       mgr.collecting=true;mgr.collectTimer=1.2;mgr.targetCell=null;
@@ -3851,26 +3873,26 @@ function drawWheel(c){
   }
 }
 
-function drawStreets(c,gs,pad,cellW,cellH){
+function drawStreets(c,gs,pad,padY,cellW,cellH){
   const roadW=Math.max(6,Math.min(12,cellW*.1));
   const sidewalkW=roadW+4;
   // Sidewalks
   c.fillStyle="rgba(80,85,95,.4)";
   for(let i=0;i<=gs;i++){
-    c.fillRect(pad+i*cellW-sidewalkW/2,pad,sidewalkW,gs*cellH);
-    c.fillRect(pad,pad+i*cellH-sidewalkW/2,gs*cellW,sidewalkW);
+    c.fillRect(pad+i*cellW-sidewalkW/2,padY,sidewalkW,gs*cellH);
+    c.fillRect(pad,padY+i*cellH-sidewalkW/2,gs*cellW,sidewalkW);
   }
   // Road surface
   c.fillStyle="rgba(40,45,55,.8)";
   for(let i=0;i<=gs;i++){
-    c.fillRect(pad+i*cellW-roadW/2,pad,roadW,gs*cellH);
-    c.fillRect(pad,pad+i*cellH-roadW/2,gs*cellW,roadW);
+    c.fillRect(pad+i*cellW-roadW/2,padY,roadW,gs*cellH);
+    c.fillRect(pad,padY+i*cellH-roadW/2,gs*cellW,roadW);
   }
   // Center lane markings (gold dashes)
   c.strokeStyle="rgba(240,192,64,.2)";c.lineWidth=1;c.setLineDash([4,6]);
   for(let i=0;i<=gs;i++){
-    c.beginPath();c.moveTo(pad+i*cellW,pad);c.lineTo(pad+i*cellW,pad+gs*cellH);c.stroke();
-    c.beginPath();c.moveTo(pad,pad+i*cellH);c.lineTo(pad+gs*cellW,pad+i*cellH);c.stroke();
+    c.beginPath();c.moveTo(pad+i*cellW,padY);c.lineTo(pad+i*cellW,padY+gs*cellH);c.stroke();
+    c.beginPath();c.moveTo(pad,padY+i*cellH);c.lineTo(pad+gs*cellW,padY+i*cellH);c.stroke();
   }
   c.setLineDash([]);
   // Crosswalks (skip if cells too small)
@@ -3878,7 +3900,7 @@ function drawStreets(c,gs,pad,cellW,cellH){
     c.fillStyle="rgba(255,255,255,.12)";
     for(let r=0;r<=gs;r++){
       for(let cc=0;cc<=gs;cc++){
-        const ix=pad+cc*cellW,iy=pad+r*cellH;
+        const ix=pad+cc*cellW,iy=padY+r*cellH;
         // Horizontal stripes near intersection
         for(let s=0;s<3;s++){
           c.fillRect(ix-roadW/2,iy+roadW/2+2+s*4,roadW,2);
@@ -3891,18 +3913,18 @@ function drawStreets(c,gs,pad,cellW,cellH){
   c.fillStyle="rgba(60,65,75,.6)";
   for(let r=0;r<=gs;r++){
     for(let cc=0;cc<=gs;cc++){
-      c.fillRect(pad+cc*cellW-roadW/2,pad+r*cellH-roadW/2,roadW,roadW);
+      c.fillRect(pad+cc*cellW-roadW/2,padY+r*cellH-roadW/2,roadW,roadW);
     }
   }
 }
 
-function drawCityDecor(c,gs,pad,cellW,cellH,time){
+function drawCityDecor(c,gs,pad,padY,cellW,cellH,time){
   const cos=state.cosmetics.cityDecor;
   // Street lamps
   if(cos.streetLamps){
     c.fillStyle="rgba(255,220,100,.6)";
     for(let r=0;r<=gs;r++){for(let cc=0;cc<=gs;cc++){
-      c.beginPath();c.arc(pad+cc*cellW,pad+r*cellH,3,0,Math.PI*2);c.fill();
+      c.beginPath();c.arc(pad+cc*cellW,padY+r*cellH,3,0,Math.PI*2);c.fill();
     }}
   }
   // Park trees in empty cells
@@ -3910,7 +3932,7 @@ function drawCityDecor(c,gs,pad,cellW,cellH,time){
     let placed=0;const totalOwned=state.properties.reduce((a,b)=>a+b,0);
     for(let r=0;r<gs;r++){for(let cc=0;cc<gs;cc++){
       if(placed>=totalOwned){
-        const tx=pad+cc*cellW+cellW/2,ty=pad+r*cellH+cellH/2;
+        const tx=pad+cc*cellW+cellW/2,ty=padY+r*cellH+cellH/2;
         c.fillStyle="rgba(34,120,60,.5)";c.beginPath();c.arc(tx,ty,Math.min(8,cellW*.12),0,Math.PI*2);c.fill();
         c.fillStyle="rgba(80,60,30,.5)";c.fillRect(tx-1,ty+Math.min(6,cellW*.08),2,Math.min(6,cellW*.08));
       }
@@ -3923,13 +3945,13 @@ function drawCityDecor(c,gs,pad,cellW,cellH,time){
     for(let r=0;r<=gs;r++){for(let cc=0;cc<=gs;cc++){
       if((r+cc)%2===0){
         c.fillStyle=phase===0?"rgba(255,80,80,.6)":"rgba(80,255,80,.6)";
-        c.beginPath();c.arc(pad+cc*cellW+8,pad+r*cellH-8,2.5,0,Math.PI*2);c.fill();
+        c.beginPath();c.arc(pad+cc*cellW+8,padY+r*cellH-8,2.5,0,Math.PI*2);c.fill();
       }
     }}
   }
   // City fountain in center
   if(cos.cityFountain){
-    const fcx=pad+gs*cellW/2,fcy=pad+gs*cellH/2;
+    const fcx=pad+gs*cellW/2,fcy=padY+gs*cellH/2;
     const phase=Math.sin(time/400)*3;
     c.fillStyle="rgba(96,165,250,.3)";c.beginPath();c.arc(fcx,fcy,8,0,Math.PI*2);c.fill();
     c.fillStyle="rgba(96,165,250,.5)";c.beginPath();c.arc(fcx,fcy-phase-4,3,0,Math.PI*2);c.fill();
@@ -3939,7 +3961,7 @@ function drawCityDecor(c,gs,pad,cellW,cellH,time){
 }
 
 function drawCity(gs){
-  const pad=getGridPad(),cellW=(canvasW-pad*2)/gs,cellH=cellW,ms=getMilestone();
+  const pad=getGridPad(),padY=getGridYOffset(),cellW=(canvasW-pad*2)/gs,cellH=cellW,ms=getMilestone();
   // Ensure cityGrid exists
   if(!state.cityGrid||state.cityGrid.length<gs)rebuildCityGrid();
   // BG
@@ -3950,11 +3972,11 @@ function drawCity(gs){
     buildingCache.width=canvasW;buildingCache.height=canvasH;
     const bc=buildingCache.getContext('2d');
     bc.clearRect(0,0,canvasW,canvasH);
-    drawStreets(bc,gs,pad,cellW,cellH);
+    drawStreets(bc,gs,pad,padY,cellW,cellH);
     // Render each cell with micro-grid system
     for(let r=0;r<gs;r++){
       for(let c=0;c<gs;c++){
-        const cellX=pad+c*cellW,cellY=pad+r*cellH;
+        const cellX=pad+c*cellW,cellY=padY+r*cellH;
         renderCell(bc,r,c,cellX,cellY,cellW,cellH);
       }
     }
@@ -3963,24 +3985,24 @@ function drawCity(gs){
   ctx.drawImage(buildingCache,0,0);
   // Building pulse on income tick (windows flash brighter)
   if(Date.now()%1000<150&&getIncome()>0){
-    ctx.fillStyle='rgba(255,220,100,0.03)';ctx.fillRect(pad,pad,gs*cellW,gs*cellH);
+    ctx.fillStyle='rgba(255,220,100,0.03)';ctx.fillRect(pad,padY,gs*cellW,gs*cellH);
   }
-  drawCityDecor(ctx,gs,pad,cellW,cellH,performance.now());
+  drawCityDecor(ctx,gs,pad,padY,cellW,cellH,performance.now());
   // Zone label
   ctx.font="600 11px -apple-system,system-ui,sans-serif";
   ctx.textAlign="left";ctx.textBaseline="top";
   ctx.fillStyle="rgba(240,192,64,.25)";
-  ctx.fillText(ms.name.toUpperCase(),pad+4,pad-16);
+  ctx.fillText(ms.name.toUpperCase(),pad+4,padY-16);
   if(state.prestigeCount>0){
     ctx.fillStyle="rgba(167,139,250,.4)";
     ctx.font="11px system-ui";ctx.textAlign="right";
-    ctx.fillText("★".repeat(Math.min(state.prestigeCount,10))+" P"+state.prestigeCount,canvasW-14,pad-16);
+    ctx.fillText("★".repeat(Math.min(state.prestigeCount,10))+" P"+state.prestigeCount,canvasW-14,padY-16);
   }
 }
 
 // ─── Vehicle Movement System ───
 function syncVehicleSprites(gs){
-  const pad=getGridPad(),cellW=(canvasW-pad*2)/gs,cellH=cellW;
+  const pad=getGridPad(),padY=getGridYOffset(),cellW=(canvasW-pad*2)/gs,cellH=cellW;
   // Rebuild if grid changed
   if(lastVehicleSyncGS!==gs){vehicleSprites=[];lastVehicleSyncGS=gs;}
   // Count desired types (1 sprite per type owned)
@@ -3995,17 +4017,17 @@ function syncVehicleSprites(gs){
       // Spawn at random road position
       const isHeli=t===7,isYacht=t===8,isJet=t===9;
       const ri=Math.floor(Math.random()*(gs+1)),ci=Math.floor(Math.random()*(gs+1));
-      const x=pad+ci*cellW,y=pad+ri*cellH;
+      const x=pad+ci*cellW,y=padY+ri*cellH;
       vehicleSprites.push({type:t,x,y,targetX:x,targetY:y,speed:30+t*25,angle:0,dir:Math.floor(Math.random()*4),isHeli,isYacht,isJet,heliAngle:Math.random()*Math.PI*2});
     }
   }
 }
 function updateVehicles(dt,gs){
-  const pad=getGridPad(),cellW=(canvasW-pad*2)/gs,cellH=cellW;
+  const pad=getGridPad(),padY=getGridYOffset(),cellW=(canvasW-pad*2)/gs,cellH=cellW;
   for(const v of vehicleSprites){
     if(v.isHeli||v.isYacht){
       v.heliAngle+=dt*(v.isYacht?.15:.3);
-      const cx2=pad+gs*cellW/2,cy2=pad+gs*cellH/2;
+      const cx2=pad+gs*cellW/2,cy2=padY+gs*cellH/2;
       const radius=Math.min(gs*cellW,gs*cellH)*(v.isYacht?.42:.35);
       v.x=cx2+Math.cos(v.heliAngle)*radius;
       v.y=cy2+Math.sin(v.heliAngle)*radius;
@@ -4014,7 +4036,7 @@ function updateVehicles(dt,gs){
     }
     if(v.isJet){
       v.x+=120*dt;v.angle=0;
-      if(v.x>canvasW+50){v.x=-50;v.y=pad+Math.random()*gs*cellH;}
+      if(v.x>canvasW+50){v.x=-50;v.y=padY+Math.random()*gs*cellH;}
       continue;
     }
     const dx=v.targetX-v.x,dy=v.targetY-v.y;
@@ -4024,11 +4046,11 @@ function updateVehicles(dt,gs){
       v.x=v.targetX;v.y=v.targetY;
       // Pick next road segment
       const dirs=[];
-      const ci=Math.round((v.x-pad)/cellW),ri=Math.round((v.y-pad)/cellH);
+      const ci=Math.round((v.x-pad)/cellW),ri=Math.round((v.y-padY)/cellH);
       if(ci>0)dirs.push({x:pad+(ci-1)*cellW,y:v.y,d:0});
       if(ci<gs)dirs.push({x:pad+(ci+1)*cellW,y:v.y,d:1});
-      if(ri>0)dirs.push({x:v.x,y:pad+(ri-1)*cellH,d:2});
-      if(ri<gs)dirs.push({x:v.x,y:pad+(ri+1)*cellH,d:3});
+      if(ri>0)dirs.push({x:v.x,y:padY+(ri-1)*cellH,d:2});
+      if(ri<gs)dirs.push({x:v.x,y:padY+(ri+1)*cellH,d:3});
       // Prefer continuing same direction
       const same=dirs.filter(d=>d.d===v.dir);
       const pick=(same.length>0&&Math.random()<0.7)?same[0]:dirs[Math.floor(Math.random()*dirs.length)];
@@ -4310,9 +4332,9 @@ function updateTaxInspector(dt,gs){
     if(ti.drainTimer>=cooldown){
       ti.active=true;ti.draining=false;ti.tapped=false;ti.approaching=true;
       ti.visitTimer=30+Math.random()*30; // 30-60s visit duration
-      const pad2=50,cellW2=(canvasW-pad2*2)/gs;
+      const pad2=getGridPad(),padY2=getGridYOffset(),cellW2=(canvasW-pad2*2)/gs;
       const ci2=Math.floor(Math.random()*(gs+1)),ri2=Math.floor(Math.random()*(gs+1));
-      ti.x=pad2+ci2*cellW2;ti.y=pad2+ri2*(canvasH-pad2*2)/gs;
+      ti.x=pad2+ci2*cellW2;ti.y=padY2+ri2*cellW2;
       ti.targetX=ti.x;ti.targetY=ti.y;ti.speed=40;ti.drainTimer=0;
     }
     return;
@@ -4598,15 +4620,15 @@ function handleClick(e){
 function detectBuildingTap(wx,wy){
   const gs=getGridSize();
   if(!state.cityGrid)return false;
-  const pad=getGridPad(),cellW=(canvasW-pad*2)/gs;
-  const col=Math.floor((wx-pad)/cellW),row=Math.floor((wy-pad)/cellW);
+  const pad=getGridPad(),padY=getGridYOffset(),cellW=(canvasW-pad*2)/gs;
+  const col=Math.floor((wx-pad)/cellW),row=Math.floor((wy-padY)/cellW);
   if(row<0||row>=gs||col<0||col>=gs)return false;
   const cell=state.cityGrid[row]&&state.cityGrid[row][col];
   if(!cell||cell.length===0)return false;
   // Find closest building in cell
   const buildings=[...cell].sort((a,b)=>a.tier-b.tier);
   for(let i=buildings.length-1;i>=0;i--){
-    const slot=getMicroSlotPos(pad+col*cellW,pad+row*cellW,cellW,cellW,i,cell.length);
+    const slot=getMicroSlotPos(pad+col*cellW,padY+row*cellW,cellW,cellW,i,cell.length);
     const dx=wx-slot.x,dy=wy-slot.y;
     if(Math.abs(dx)<slot.w/2&&Math.abs(dy)<slot.h/2){
       showUpgradePopup(buildings[i],row,col,i);
@@ -6259,10 +6281,13 @@ function init(){
   resizeCanvas();
   window.addEventListener("resize",resizeCanvas);
 
-  const wps=getWaypoints(getGridSize());
-  if(wps.length){state.mogul.x=wps[0].x;state.mogul.y=wps[0].y;}
-
   loadGame();
+
+  // Place mogul on first waypoint if still at origin
+  if(state.mogul.x===0&&state.mogul.y===0){
+    const wps=getWaypoints(getGridSize());
+    if(wps.length){state.mogul.x=wps[0].x;state.mogul.y=wps[0].y;}
+  }
   // Initialize city grid if not loaded from save
   if(!state.cityGrid||state.cityGrid.length===0){
     const gs=getGridSize();
